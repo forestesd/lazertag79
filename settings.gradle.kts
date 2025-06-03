@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "lazertag79"
 include(":app")
+
+include(":server")
+project(":server").projectDir = File("C:\\Users\\fores\\Desktop\\lt")

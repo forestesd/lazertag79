@@ -8,6 +8,12 @@ android {
     namespace = "com.example.lazertag79"
     compileSdk = 35
 
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.lazertag79"
         minSdk = 24
@@ -39,7 +45,14 @@ android {
     }
 }
 
+configurations.all {
+    exclude(group = "ch.qos.logback")
+}
+
 dependencies {
+    implementation(project(":server"))
+
+    implementation(libs.slf4j.android)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
