@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -50,9 +52,18 @@ configurations.all {
 }
 
 dependencies {
-    implementation(project(":server"))
+    implementation(project(":navigation"))
+    implementation(project(":mainScreen"))
+    implementation(project(":serverV3"))
+    implementation(project(":comon"))
 
     implementation(libs.slf4j.android)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
