@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ConnectTaggerUseCase @Inject constructor(
     private val repository: ServerRepositoryInterface
 ) {
-    operator fun invoke(taggerInfo: TaggerInfo) = repository.connectTagger(
+   suspend operator fun invoke(taggerInfo: TaggerInfo) = repository.connectTagger(
         taggerInfo = taggerInfo
     )
 }

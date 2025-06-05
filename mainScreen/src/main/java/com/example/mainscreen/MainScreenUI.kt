@@ -24,25 +24,29 @@ import androidx.lifecycle.ViewModel
 @Composable
 fun MainScreenUI (viewModel: ServerViewModel){
     val data by viewModel.taggerData.collectAsState()
-
-    Column(
-        modifier = Modifier.fillMaxWidth().height(200.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ){
-        Box (
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = data.toString(),
-                fontSize = 32.sp
-            )
-        }
-    }
-    Column(
+    Column (
         modifier = Modifier.fillMaxSize()
     ){
-
+        Column(
+            modifier = Modifier.fillMaxWidth().height(200.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ){
+            Box (
+                modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = data.toString(),
+                    fontSize = 32.sp
+                )
+            }
+        }
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ){
+            TeamAssignmentScreen(viewModel)
+        }
     }
+
 }

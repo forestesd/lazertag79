@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.2"
+composeDnd = "0.3.0"
 coreKtxVersion = "1.12.0"
 hilt = "2.55"
 hiltAndroid = "2.55"
@@ -33,6 +34,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-material3-v110 = { module = "androidx.compose.material3:material3", version.ref = "material3Version" }
+compose-dnd = { module = "com.mohamedrejeb.dnd:compose-dnd", version.ref = "composeDnd" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
