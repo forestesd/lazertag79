@@ -4,6 +4,6 @@ import com.example.comon.models.TaggerInfo
 import kotlinx.coroutines.flow.StateFlow
 
 interface ServerRepositoryInterface {
-    val taggerData: StateFlow<TaggerInfo?>
+    val taggerData: StateFlow<List<TaggerInfo?>>
     fun connectTagger(taggerInfo: TaggerInfo)
 }

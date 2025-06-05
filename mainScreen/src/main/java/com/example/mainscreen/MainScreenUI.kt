@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,16 +26,23 @@ fun MainScreenUI (viewModel: ServerViewModel){
     val data by viewModel.taggerData.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxWidth().height(200.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ){
         Box (
-            modifier = Modifier.height(50.dp).width(50.dp).background(Color.Gray)
-        )
-        Text(
-            text = data.toString(),
-            fontSize = 32.sp
-        )
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = data.toString(),
+                fontSize = 32.sp
+            )
+        }
+    }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ){
+
     }
 }

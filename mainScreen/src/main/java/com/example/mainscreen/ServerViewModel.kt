@@ -16,7 +16,7 @@ class ServerViewModel @Inject constructor(
     private val connectTaggerUseCase: ConnectTaggerUseCase
 ) : ViewModel(), ServerViewModelInterface {
 
-    val taggerData: StateFlow<TaggerInfo?> = taggerInfoUseCase.invoke()
+    val taggerData: StateFlow<List<TaggerInfo?>> = taggerInfoUseCase.invoke()
 
     override fun update(newData: TaggerInfo) {
         connectTaggerUseCase.invoke(newData)
