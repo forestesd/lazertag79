@@ -10,16 +10,17 @@ data class TaggerInfo(
     val reloadTime: Int,
     val shockTime: Int,
     val invulnTime: Int,
-    val fireSpeed:Int,
+    val fireSpeed: Int,
     val firePower: Int,
     val maxPatrons: Int,
     val maxHealth: Int,
     val caption: String,
     val ip: String,
     val chipId: String,
-    val autoreload: Boolean,
-    val friendlyFire: Boolean,
+    val autoreload: Int,
+    val friendlyFire: Int,
     val btConnected: Int,
     val status: Int,
-    val fireMode: Int
+    val fireMode: Int,
+    val volume: Int
 )
