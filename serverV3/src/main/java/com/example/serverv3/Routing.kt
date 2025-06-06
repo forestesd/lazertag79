@@ -12,7 +12,7 @@ import io.ktor.server.routing.routing
 
 fun Application.configureRouting(connectTaggerUseCase: ConnectTaggerUseCase) {
     routing {
-        post("/api/taggersa") {
+        post("/api/taggers") {
             TaggersController(
                 call = call,
                 connectTaggerUseCase = connectTaggerUseCase
