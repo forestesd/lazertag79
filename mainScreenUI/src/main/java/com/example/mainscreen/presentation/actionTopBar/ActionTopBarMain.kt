@@ -82,7 +82,8 @@ fun ActionTopBarMain(
                 )
                 TeamName(
                     teamId = 2,
-                    actionTopBarViewModel = actionTopBarViewModel
+                    actionTopBarViewModel = actionTopBarViewModel,
+                    modifier = Modifier.weight(1f)
                 )
                 StartButton(
                     Modifier
@@ -91,7 +92,8 @@ fun ActionTopBarMain(
                 )
                 TeamName(
                     teamId = 1,
-                    actionTopBarViewModel = actionTopBarViewModel
+                    actionTopBarViewModel = actionTopBarViewModel,
+                    modifier = Modifier.weight(1f)
                 )
                 TeamPlayersCount(
                     count = taggers.count { it?.teamId == 1 },
@@ -106,10 +108,12 @@ fun ActionTopBarMain(
 @Composable
 fun TeamPlayersCount(
     count: Int,
-    teamID: Int
+    teamID: Int,
+    modifier: Modifier = Modifier
+
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(70.dp)
             .width(160.dp)
             .clip(
@@ -141,7 +145,8 @@ fun TeamPlayersCount(
 @Composable
 fun TeamName(
     teamId: Int,
-    actionTopBarViewModel: ActionTopBarViewModel
+    actionTopBarViewModel: ActionTopBarViewModel,
+    modifier: Modifier = Modifier
 ) {
     val teams by actionTopBarViewModel.teams.collectAsState()
     val isTeamNameChange = remember { mutableStateOf(false) }
@@ -163,7 +168,7 @@ fun TeamName(
 
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(70.dp)
             .width(264.dp)
             .padding(
