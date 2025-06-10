@@ -15,7 +15,7 @@ class ActionTopBarViewModel @Inject constructor(
 ) : ViewModel() {
     val teams: StateFlow<List<TeamModel>> = teamsUseCase.invoke()
 
-    fun updateTeamName(team: TeamModel) {
+    fun updateTeamName(team: TeamModel?) {
         changeTeamNameUseCase.invoke(team)
     }
 }
