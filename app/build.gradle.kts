@@ -53,7 +53,7 @@ configurations.all {
 
 dependencies {
     implementation(project(":navigation"))
-    implementation(project(":mainScreen"))
+    implementation(project(":mainScreenUI"))
     implementation(project(":serverV3"))
     implementation(project(":comon"))
 

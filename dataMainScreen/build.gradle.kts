@@ -1,13 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.10"
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
-    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.example.mainscreen"
+    namespace = "com.example.data"
     compileSdk = 35
 
     defaultConfig {
@@ -38,15 +38,8 @@ android {
 dependencies {
     implementation(project(":comon"))
 
-    implementation(libs.compose.dnd)
+    implementation(libs.ktor.serialization.kotlinx.json)
 
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation (libs.androidx.material3.v110)
-    implementation(libs.androidx.core.ktx)
-
-    implementation(libs.androidx.runtime.android)
-    implementation(libs.androidx.storage)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

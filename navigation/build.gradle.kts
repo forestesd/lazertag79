@@ -34,8 +34,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":mainScreen"))
 
+    implementation(project(":mainScreenUI"))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
 

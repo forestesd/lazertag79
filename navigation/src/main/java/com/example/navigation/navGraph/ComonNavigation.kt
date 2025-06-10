@@ -10,13 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mainscreen.MainScreenUI
-import com.example.mainscreen.ServerViewModel
+import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
+import com.example.mainscreen.presentation.MainScreenUI
+import com.example.mainscreen.presentation.ServerViewModel
+import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.example.navigation.UI.NavigationUI
 
 @Composable
 fun AppNavigation(
-    serverViewModel: ServerViewModel
+    serverViewModel: ServerViewModel,
+    connectedTaggerViewModel: ConnectedTaggerViewModel,
+    actionTopBarViewModel: ActionTopBarViewModel
 ) {
 
 
@@ -31,11 +35,11 @@ fun AppNavigation(
         },
         onFinanceClick = {
             selectedItem = 1
-            navController.navigate("finance")
+            navController.navigate("")
         },
         onNewsFeedClick = {
             selectedItem = 2
-            navController.navigate("notes")
+            navController.navigate("")
         }
     ) { paddingValues ->
 
@@ -46,7 +50,11 @@ fun AppNavigation(
 
         ) {
             composable("main") {
-                MainScreenUI(serverViewModel)
+                MainScreenUI(
+                    serverViewModel = serverViewModel,
+                    connectedTaggerViewModel = connectedTaggerViewModel,
+                    actionTopBarViewModel = actionTopBarViewModel,
+                )
             }
         }
     }

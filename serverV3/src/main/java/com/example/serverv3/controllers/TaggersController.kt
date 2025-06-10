@@ -2,10 +2,12 @@ package com.example.serverv3.controllers
 
 import android.util.Log
 import com.example.comon.models.TaggerInfo
+import com.example.comon.models.TaggerRes
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
+import io.ktor.server.request.receiveText
 import io.ktor.server.response.respond
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,15 +19,19 @@ class TaggersController @Inject constructor(
 ) {
     suspend fun connectTagger() {
         try {
-            val res = call.receive<TaggerInfo>()
+            val res = call.receive<TaggerRes>()
             Log.d("SERVER", res.toString())
 
             withContext(Dispatchers.Main) {
                 connectTaggerUseCase.invoke(res)
             }
             call.respond(HttpStatusCode.OK, "OK")
+
         } catch (e: Exception) {
-            Log.d("SERVER", e.toString())
+
+            Log.d("SERVER", e.message.toString())
+
+            call.respond(HttpStatusCode.BadRequest, "Invalid content")
         }
     }
 }

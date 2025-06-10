@@ -2,6 +2,8 @@ package com.example.comon.server.data
 
 import android.util.Log
 import com.example.comon.models.TaggerInfo
+import com.example.comon.models.TaggerRes
+import com.example.comon.server.data.mappers.taggerResToTaggerInfo
 import com.example.comon.server.domain.repository.ServerRepositoryInterface
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +14,17 @@ class ServerRepository @Inject constructor() : ServerRepositoryInterface {
     private val _taggerData = MutableStateFlow<List<TaggerInfo?>>(emptyList())
     override val taggerData: StateFlow<List<TaggerInfo?>> = _taggerData
 
-    override suspend fun connectTagger(taggerInfo: TaggerInfo) {
-        _taggerData.value += taggerInfo
+    override suspend fun connectTagger(taggerRes: TaggerRes) {
+        _taggerData.value += taggerResToTaggerInfo(taggerRes)
+    }
+
+    override fun updateTaggerInfo(taggerInfo: TaggerInfo?) {
+        _taggerData.update { list ->
+            list.map {
+                if (it == taggerInfo) taggerInfo
+                else it
+            }
+        }
     }
 
     override fun changeTeam(tagger: TaggerInfo?, team: Int) {

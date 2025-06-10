@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "lazertag79"
 include(":app")
 
-include(":mainScreen")
+include(":mainScreenUI")
 include(":comon")
 include(":serverV3")
 include(":navigation")
