@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,41 +68,38 @@ fun ActionTopBarMain(
                 .background(MaterialTheme.colorScheme.surface),
         ) {
         }
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f)
-                .background(MaterialTheme.colorScheme.surface)
-        ) {
-            TeamPlayersCount(
-                count = taggers.count { it?.teamId == 2 },
-                teamID = 2
-            )
-            TeamName(
-                teamId = 2,
-                actionTopBarViewModel = actionTopBarViewModel
-            )
-            StartButton(
-                Modifier.padding(horizontal = 60.dp)
-            )
-            TeamName(
-                teamId = 1,
-                actionTopBarViewModel = actionTopBarViewModel
-            )
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .weight(1f)) {
             Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.End
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
             ) {
-
+                TeamPlayersCount(
+                    count = taggers.count { it?.teamId == 2 },
+                    teamID = 2
+                )
+                TeamName(
+                    teamId = 2,
+                    actionTopBarViewModel = actionTopBarViewModel
+                )
+                StartButton(
+                    Modifier
+                        .padding(horizontal = 60.dp)
+                        .weight(1f)
+                )
+                TeamName(
+                    teamId = 1,
+                    actionTopBarViewModel = actionTopBarViewModel
+                )
                 TeamPlayersCount(
                     count = taggers.count { it?.teamId == 1 },
                     teamID = 1
                 )
-
-
             }
-
         }
+
     }
 }
 
@@ -215,7 +213,7 @@ fun StartButton(
     Box(
         modifier = modifier
             .height(75.dp)
-            .width(320.dp)
+            .width(260.dp)
             .clip(RoundedCornerShape(topEnd = 45.dp, topStart = 45.dp))
             .background(Color(0xFFB9FF93))
             .clickable {
