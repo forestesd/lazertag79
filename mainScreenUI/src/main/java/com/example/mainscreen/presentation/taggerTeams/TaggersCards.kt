@@ -236,7 +236,7 @@ fun BatteryIcon(
             modifier = Modifier.fillMaxSize()
         )
         Icon(
-            painterResource(R.drawable.battery_fill),
+            painterResource(R.drawable.battery_full),
             contentDescription = "Fill Battery Icon",
             tint = color,
             modifier = Modifier
