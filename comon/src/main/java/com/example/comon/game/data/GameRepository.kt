@@ -6,6 +6,7 @@ import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.models.GameConfig
 import com.example.comon.game.domain.models.GameConfigLocalTime
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class GameRepository @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : GameRepositoryInterface {
     private val _game = MutableStateFlow(getGameDefault())
 
