@@ -8,5 +8,5 @@ import javax.inject.Inject
 class ChangeTeamUseCase @Inject constructor(
     private val repository: ServerRepositoryInterface
 ) {
-    operator fun invoke(tagger: TaggerInfo?, team: Int) = repository.changeTeam(tagger, team)
+    suspend operator fun invoke(tagger: TaggerInfo, team: Int) = repository.changeTeam(tagger, team)
 }

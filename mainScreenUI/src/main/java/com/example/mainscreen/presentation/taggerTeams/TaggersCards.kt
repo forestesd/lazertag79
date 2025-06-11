@@ -32,7 +32,7 @@ import com.example.comon.models.TaggerInfo
 import com.example.mainscreen.R
 
 @Composable
-fun ConnectedTaggerCard(tagger: TaggerInfo?) {
+fun ConnectedTaggerCard(tagger: TaggerInfo) {
     Card(
         modifier = Modifier
             .height(111.dp)
@@ -52,7 +52,7 @@ fun ConnectedTaggerCard(tagger: TaggerInfo?) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Id: ${tagger?.taggerId}",
+                text = "Id: ${tagger.taggerId}",
             )
             Row {
 
@@ -96,7 +96,7 @@ fun ConnectedTaggerCard(tagger: TaggerInfo?) {
 
 @Composable
 fun TeamPlayerCard(
-    tagger: TaggerInfo?,
+    tagger: TaggerInfo,
 ) {
 
     Card(
@@ -125,7 +125,7 @@ fun TeamPlayerCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = tagger?.playerName ?: "Kotlin",
+                    text = tagger.playerName ,
                     fontSize = 16.sp
                 )
                 Column(
@@ -174,44 +174,44 @@ fun TeamPlayerCard(
 
 @Composable
 fun BatteryPercents(
-    tagger: TaggerInfo?
+    tagger: TaggerInfo
 ) {
 
     Row {
         Text(
-            text = "${tagger?.taggerCharge ?: "100"}%",
-            color = when (tagger?.taggerChargeColor) {
+            text = "${tagger.taggerCharge}%",
+            color = when (tagger.taggerChargeColor) {
                 BatteryColor.Green -> Color(0xFF1EC70B)
                 BatteryColor.Yellow -> Color(0xFFFFFB00)
                 else -> Color(0xFFFF0000)
             }
         )
         BatteryIcon(
-            color = when (tagger?.taggerChargeColor) {
+            color = when (tagger.taggerChargeColor) {
                 BatteryColor.Green -> Color(0xFF1EC70B)
                 BatteryColor.Yellow -> Color(0xFFFFFB00)
                 else -> Color(0xFFFF0000)
             },
-            fillFraction = ((tagger?.taggerCharge ?: 100) / 100f).coerceIn(0f, 1f)
+            fillFraction = ((tagger.taggerCharge) / 100f).coerceIn(0f, 1f)
         )
     }
 
     Row {
         Text(
-            text = "${tagger?.bandageCharge ?: "100"}%",
-            color = when (tagger?.bandageChargeColor) {
+            text = "${tagger.bandageCharge }%",
+            color = when (tagger.bandageChargeColor) {
                 BatteryColor.Green -> Color(0xFF1EC70B)
                 BatteryColor.Yellow -> Color(0xFFFFFB00)
                 else -> Color(0xFFFF0000)
             }
         )
         BatteryIcon(
-            color = when (tagger?.bandageChargeColor) {
+            color = when (tagger.bandageChargeColor) {
                 BatteryColor.Green -> Color(0xFF1EC70B)
                 BatteryColor.Yellow -> Color(0xFFFFFB00)
                 else -> Color(0xFFFF0000)
             },
-            fillFraction = ((tagger?.bandageCharge ?: 100) / 100f).coerceIn(0f, 1f)
+            fillFraction = ((tagger.bandageCharge) / 100f).coerceIn(0f, 1f)
         )
     }
 

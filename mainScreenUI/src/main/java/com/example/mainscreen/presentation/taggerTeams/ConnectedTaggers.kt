@@ -51,7 +51,7 @@ fun ConnectedTaggers(
     val drawerValue by connectedTaggerViewModel.drawerState.collectAsState()
 
     LaunchedEffect(taggers) {
-        if (taggers.count{it?.teamId == 0} != 0) {
+        if (taggers.count{ it.teamId == 0} != 0) {
             connectedTaggerViewModel.openDrawer()
         } else {
             connectedTaggerViewModel.closeDrawer()
@@ -94,7 +94,6 @@ fun ConnectedTaggers(
                         ) {
                             items(
                                 items = taggers
-                                    .filterNotNull()
                                     .filter { it.teamId == 0 }
                                     .filter { it.taggerId != onDragTaggerId },
                                 key = { item -> item.taggerId }
@@ -118,7 +117,7 @@ fun ConnectedTaggers(
                                     state = dndState,
                                     key = "NONETeamDNDArea",
                                     onDrop = { droppedData ->
-                                        serverViewMode.changeTeam(droppedData.data, 0)
+                                        droppedData.data?.let { serverViewMode.changeTeam(it, 0) }
                                         serverViewMode.onDrag(null)
                                     },
                                     onDragEnter = {

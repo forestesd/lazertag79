@@ -47,7 +47,6 @@ fun RedTeamList(
         ) {
             items(
                 items = taggers
-                    .filterNotNull()
                     .filter { it.teamId == 1 }
                     .filter { it.taggerId != onDragTaggerId },
                 key = { item ->
@@ -74,7 +73,7 @@ fun RedTeamList(
                     key = "RedTeamDNDArea",
                     onDrop = { droppedData ->
                         droppedData.let {
-                            serverViewMode.changeTeam(it.data, 1)
+                            it.data?.let { it1 -> serverViewMode.changeTeam(it1, 1) }
                             serverViewMode.onDrag(null)
                         }
                     },
@@ -115,7 +114,6 @@ fun BlueTeamList(
                 )
         ) {
             items(items = taggers
-                .filterNotNull()
                 .filter { it.teamId == 2 }
                 .filter { it.taggerId != onDragTaggerId },
                 key = { item -> item.taggerId }) { tagger ->
@@ -140,7 +138,7 @@ fun BlueTeamList(
                     key = "BlueTeamDNDArea",
                     onDrop = { droppedData ->
                         droppedData.let {
-                            serverViewMode.changeTeam(it.data, 2)
+                            it.data?.let { it1 -> serverViewMode.changeTeam(it1, 2) }
                             serverViewMode.onDrag(null)
                         }
                     },

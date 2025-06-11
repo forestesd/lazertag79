@@ -5,11 +5,11 @@ import com.example.comon.models.TaggerRes
 import kotlinx.coroutines.flow.StateFlow
 
 interface ServerRepositoryInterface {
-    val taggerData: StateFlow<List<TaggerInfo?>>
+    val taggerData: StateFlow<List<TaggerInfo>>
 
    suspend fun connectTagger(taggerRes: TaggerRes)
 
-    fun changeTeam(tagger: TaggerInfo?, team: Int)
+    suspend fun changeTeam(tagger: TaggerInfo, team: Int)
 
-    fun updateTaggerInfo(taggerInfo: TaggerInfo?)
+    fun updateTaggerInfo(taggerInfo: TaggerInfo)
 }

@@ -39,6 +39,9 @@ dependencies {
 
     implementation(libs.ktor.serialization.kotlinx.json)
 
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

@@ -56,14 +56,14 @@ fun ActionTopBarMain(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth(0.4f)
                 .weight(1f)
                 .background(MaterialTheme.colorScheme.surface),
         ) {
         }
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth(0.4f)
                 .weight(1f)
                 .background(MaterialTheme.colorScheme.surface),
         ) {

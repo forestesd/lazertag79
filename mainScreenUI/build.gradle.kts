@@ -40,6 +40,9 @@ dependencies {
 
     implementation(libs.compose.dnd)
 
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)
