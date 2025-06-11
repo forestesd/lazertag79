@@ -19,7 +19,17 @@ class ServerRepository @Inject constructor(
     override val taggerData: StateFlow<List<TaggerInfo>> = _taggerData
 
     override suspend fun connectTagger(taggerRes: TaggerRes) {
-        _taggerData.value += taggerResToTaggerInfo(taggerRes)
+        val tagger = taggerResToTaggerInfo(taggerRes)
+        if (_taggerData.value.find { it.taggerId == tagger.taggerId } == null) {
+            _taggerData.value += tagger
+        } else {
+            _taggerData.update { list ->
+                list.map {
+                    if (it == tagger) tagger
+                    else it
+                }
+            }
+        }
     }
 
     override fun updateTaggerInfo(taggerInfo: TaggerInfo) {
@@ -39,7 +49,7 @@ class ServerRepository @Inject constructor(
             }
         }
         try {
-            val service = serviceFactory.create(baseUrl = "http://${tagger.ip}/config/")
+            val service = serviceFactory.create(baseUrl = "http://${tagger.ip}/")
 
             service.updateTaggerData(
                 _taggerData.value.find { it.taggerId == tagger.taggerId }?.let { taggerInfo ->

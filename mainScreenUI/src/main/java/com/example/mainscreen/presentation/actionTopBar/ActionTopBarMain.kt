@@ -7,12 +7,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -34,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mainscreen.R
@@ -50,34 +52,74 @@ fun ActionTopBarMain(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
+            .height(200.dp)
+            .background(MaterialTheme.colorScheme.surface),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
         Row(
             modifier = Modifier
-                .fillMaxWidth(0.4f)
-                .weight(1f)
-                .background(MaterialTheme.colorScheme.surface),
+                .fillMaxSize()
+                .weight(1f),
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Top
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                }
+            }
+            GameTime(Modifier.weight(0.6f).padding(bottom = 10.dp)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Top
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                }
+            }
         }
-        Row(
+
+
+        Box(
             modifier = Modifier
-                .fillMaxWidth(0.4f)
-                .weight(1f)
-                .background(MaterialTheme.colorScheme.surface),
+                .fillMaxSize()
+                .weight(0.5f)
         ) {
-        }
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .weight(1f)) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
             ) {
                 TeamPlayersCount(
-                    count = taggers.count { it?.teamId == 2 },
+                    count = taggers.count { it.teamId == 2 },
                     teamID = 2
                 )
                 TeamName(
@@ -96,7 +138,7 @@ fun ActionTopBarMain(
                     modifier = Modifier.weight(1f)
                 )
                 TeamPlayersCount(
-                    count = taggers.count { it?.teamId == 1 },
+                    count = taggers.count { it.teamId == 1 },
                     teamID = 1
                 )
             }
@@ -104,6 +146,96 @@ fun ActionTopBarMain(
 
     }
 }
+
+@Composable
+fun GameTime(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .clip(RoundedCornerShape(bottomEnd = 55.dp, bottomStart = 55.dp))
+            .background(Color(0xFFEADDFF))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 10.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TimeObj(
+                modifier = Modifier.weight(1f),
+                text = "Время игры",
+                time = "09:00",
+                timePaddingValues = 55.dp,
+                textFontSize = 26,
+                timeFontSize = 22
+            )
+
+            TimeObj(
+                modifier = Modifier.weight(1f),
+                text = "Время до старта игры",
+                time = "00:30",
+                timePaddingValues = 65.dp,
+                textFontSize = 18,
+                timeFontSize = 14
+            )
+        }
+    }
+
+}
+
+@Composable
+fun TimeObj(
+    modifier: Modifier = Modifier,
+    text: String,
+    textFontSize: Int,
+    time: String,
+    timeFontSize: Int,
+    timePaddingValues: Dp
+){
+
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = text,
+            fontSize = textFontSize.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.weight(1f)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = timePaddingValues)
+                .weight(1f)
+                .clip(RoundedCornerShape(70.dp))
+                .background(Color(0xFFD0BCFF))
+                .clickable{
+
+                }
+            ,
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = time,
+                textAlign = TextAlign.Center,
+                fontSize = timeFontSize.sp
+            )
+            Icon(
+                painter = painterResource(R.drawable.edit),
+                contentDescription = "Game Time Icon",
+                modifier = Modifier.size(28.dp)
+            )
+        }
+    }
+}
+
 
 @Composable
 fun TeamPlayersCount(

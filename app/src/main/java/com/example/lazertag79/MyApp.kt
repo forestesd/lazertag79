@@ -11,20 +11,35 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltAndroidApp
-class MyApp : Application(){
+class MyApp : Application() {
     @Inject
     lateinit var connectTaggerUseCase: ConnectTaggerUseCase
+
+
 
     override fun onCreate() {
         super.onCreate()
 
         val ip = getLocalIpAddress()
         CoroutineScope(Dispatchers.IO).launch {
-            startServer(ip, 8080, connectTaggerUseCase = connectTaggerUseCase )
+            startServer(ip, 8080, connectTaggerUseCase = connectTaggerUseCase)
             Log.d("Server", "Server started on http://$ip:8080")
+        }
+        copyRawConfigToFileIfNeeded(this)
+    }
+
+    private fun copyRawConfigToFileIfNeeded(context: Context) {
+        val file = File(context.filesDir, "config.json")
+        if (!file.exists()) {
+            context.resources.openRawResource(R.raw.config).use { input ->
+                file.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
         }
     }
 

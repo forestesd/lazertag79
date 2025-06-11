@@ -1,21 +1,44 @@
 package com.example.mainscreen.presentation.actionTopBar
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.comon.game.domain.models.Game
+import com.example.comon.game.domain.use_cases.ChangeGameTimeUseCase
+import com.example.comon.game.domain.use_cases.ChangeTimeBeforeStartUseCase
+import com.example.comon.game.domain.use_cases.GameUseCase
 import com.example.mainscreen.domain.models.TeamModel
 import com.example.mainscreen.domain.useCases.ChangeTeamNameUseCase
 import com.example.mainscreen.domain.useCases.TeamsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
 class ActionTopBarViewModel @Inject constructor(
     private val changeTeamNameUseCase: ChangeTeamNameUseCase,
-    teamsUseCase: TeamsUseCase
+    teamsUseCase: TeamsUseCase,
+    gameUseCase: GameUseCase,
+    private val changeGameTimeUseCase: ChangeGameTimeUseCase,
+    private val changeTimeBeforeStartUseCase: ChangeTimeBeforeStartUseCase
 ) : ViewModel() {
     val teams: StateFlow<List<TeamModel>> = teamsUseCase.invoke()
+    val game: StateFlow<Game> = gameUseCase.invoke()
 
     fun updateTeamName(team: TeamModel?) {
         changeTeamNameUseCase.invoke(team)
+    }
+
+    fun changeGameTime(time: LocalTime) {
+        viewModelScope.launch {
+            changeGameTimeUseCase.invoke(time)
+        }
+    }
+
+    fun changeTimeBeforeStart(time: LocalTime) {
+        viewModelScope.launch {
+            changeTimeBeforeStartUseCase.invoke(time)
+        }
     }
 }
