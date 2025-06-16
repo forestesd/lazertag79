@@ -71,6 +71,10 @@ class GameRepository @Inject constructor(
 
     }
 
+    override suspend fun gameStart() {
+        _game.value = _game.value.copy(isGameStart = true)
+    }
+
     override suspend fun changeTimeBeforeStart(time: LocalTime) {
         _game.value = _game.value.copy(timeBeforeStart = time)
 

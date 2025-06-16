@@ -13,4 +13,6 @@ interface GameRepositoryInterface {
     suspend fun changeTimeBeforeStart(time: LocalTime)
 
     suspend fun changeFriendlyFireMode(friendlyFireMode: Boolean, taggers: List<TaggerInfo>)
+
+    suspend fun gameStart()
 }
