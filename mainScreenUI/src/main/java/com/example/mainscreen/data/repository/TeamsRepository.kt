@@ -1,7 +1,7 @@
 package com.example.mainscreen.data.repository
 
-import com.example.mainscreen.domain.models.TeamModel
-import com.example.mainscreen.domain.repository.TeamsRepositoryInterface
+import com.example.comon.Teams.domain.domain.models.TeamModel
+import com.example.comon.Teams.domain.domain.repository.TeamsRepositoryInterface
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

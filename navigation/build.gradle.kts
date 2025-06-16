@@ -36,6 +36,8 @@ android {
 dependencies {
 
     implementation(project(":mainScreenUI"))
+    implementation(project(":featureGame"))
+
     implementation(libs.ui)
     implementation(libs.ui.graphics)
 

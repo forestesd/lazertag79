@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.featuregame.MainScreen
 import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
 import com.example.mainscreen.presentation.MainScreenUI
 import com.example.mainscreen.presentation.ServerViewModel
@@ -54,7 +55,11 @@ fun AppNavigation(
                     serverViewModel = serverViewModel,
                     connectedTaggerViewModel = connectedTaggerViewModel,
                     actionTopBarViewModel = actionTopBarViewModel,
+                    onStart = {navController.navigate("game")}
                 )
+            }
+            composable("game") {
+                MainScreen()
             }
         }
     }

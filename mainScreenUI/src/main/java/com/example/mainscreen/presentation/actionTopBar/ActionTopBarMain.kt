@@ -47,7 +47,8 @@ import com.example.mainscreen.presentation.ServerViewModel
 @Composable
 fun ActionTopBarMain(
     serverViewModel: ServerViewModel,
-    actionTopBarViewModel: ActionTopBarViewModel
+    actionTopBarViewModel: ActionTopBarViewModel,
+    onStart: () -> Unit
 ) {
     val taggers by serverViewModel.taggerData.collectAsState()
     val teams by actionTopBarViewModel.teams.collectAsState()
@@ -146,7 +147,8 @@ fun ActionTopBarMain(
         BottomRow(
             modifier = Modifier.weight(0.5f),
             actionTopBarViewModel = actionTopBarViewModel,
-            taggers = taggers
+            taggers = taggers,
+            onStart = onStart
         )
     }
 }
@@ -353,7 +355,8 @@ fun TimeObj(
 fun BottomRow(
     modifier: Modifier = Modifier,
     actionTopBarViewModel: ActionTopBarViewModel,
-    taggers: List<TaggerInfo>
+    taggers: List<TaggerInfo>,
+    onStart: () -> Unit
 ) {
 
     Box(
@@ -377,7 +380,8 @@ fun BottomRow(
             StartButton(
                 Modifier
                     .padding(horizontal = 60.dp)
-                    .weight(1f)
+                    .weight(1f),
+                onStart = onStart
             )
             TeamName(
                 teamId = 1,
@@ -518,7 +522,8 @@ fun TeamName(
 
 @Composable
 fun StartButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onStart: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -527,7 +532,7 @@ fun StartButton(
             .clip(RoundedCornerShape(topEnd = 45.dp, topStart = 45.dp))
             .background(Color(0xFFB9FF93))
             .clickable {
-
+                onStart()
             }
     ) {
         Text(

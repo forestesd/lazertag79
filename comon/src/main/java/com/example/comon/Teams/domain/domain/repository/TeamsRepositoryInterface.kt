@@ -1,6 +1,6 @@
-package com.example.mainscreen.domain.repository
+package com.example.comon.Teams.domain.domain.repository
 
-import com.example.mainscreen.domain.models.TeamModel
+import com.example.comon.Teams.domain.domain.models.TeamModel
 import kotlinx.coroutines.flow.StateFlow
 
 interface TeamsRepositoryInterface {

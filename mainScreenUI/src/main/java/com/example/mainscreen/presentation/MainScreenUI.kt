@@ -14,7 +14,8 @@ import com.example.mainscreen.presentation.taggerTeams.TeamAssignmentScreen
 fun MainScreenUI(
     serverViewModel: ServerViewModel,
     connectedTaggerViewModel: ConnectedTaggerViewModel,
-    actionTopBarViewModel: ActionTopBarViewModel
+    actionTopBarViewModel: ActionTopBarViewModel,
+    onStart: () -> Unit
 ) {
 
     Column(
@@ -22,7 +23,8 @@ fun MainScreenUI(
     ) {
         ActionTopBarMain(
             serverViewModel = serverViewModel,
-            actionTopBarViewModel = actionTopBarViewModel
+            actionTopBarViewModel = actionTopBarViewModel,
+            onStart = onStart
         )
         Column(
             modifier = Modifier.fillMaxSize()

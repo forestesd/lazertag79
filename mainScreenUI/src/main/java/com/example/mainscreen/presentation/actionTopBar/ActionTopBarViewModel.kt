@@ -8,9 +8,9 @@ import com.example.comon.game.domain.use_cases.ChangeGameTimeUseCase
 import com.example.comon.game.domain.use_cases.ChangeTimeBeforeStartUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
 import com.example.comon.models.TaggerInfo
-import com.example.mainscreen.domain.models.TeamModel
-import com.example.mainscreen.domain.useCases.ChangeTeamNameUseCase
-import com.example.mainscreen.domain.useCases.TeamsUseCase
+import com.example.comon.Teams.domain.domain.models.TeamModel
+import com.example.comon.Teams.domain.domain.useCases.ChangeTeamNameUseCase
+import com.example.comon.Teams.domain.domain.useCases.TeamsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

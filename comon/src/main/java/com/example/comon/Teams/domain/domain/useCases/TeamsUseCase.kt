@@ -1,6 +1,6 @@
-package com.example.mainscreen.domain.useCases
+package com.example.comon.Teams.domain.domain.useCases
 
-import com.example.mainscreen.domain.repository.TeamsRepositoryInterface
+import com.example.comon.Teams.domain.domain.repository.TeamsRepositoryInterface
 import javax.inject.Inject
 
 class TeamsUseCase @Inject constructor(
