@@ -20,7 +20,6 @@ class MyApp : Application() {
     lateinit var connectTaggerUseCase: ConnectTaggerUseCase
 
 
-
     override fun onCreate() {
         super.onCreate()
 
@@ -33,15 +32,23 @@ class MyApp : Application() {
     }
 
     private fun copyRawConfigToFileIfNeeded(context: Context) {
-        val file = File(context.filesDir, "config.json")
-        if (!file.exists()) {
+        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val wasCopied = prefs.getBoolean("config_copied", false)
+
+        if (!wasCopied) {
+            val file = File(context.filesDir, "config.json")
             context.resources.openRawResource(R.raw.config).use { input ->
                 file.outputStream().use { output ->
                     input.copyTo(output)
                 }
             }
+            prefs.edit().putBoolean("config_copied", true).apply()
+            Log.d("ConfigCopy", "Initial config copied.")
+        } else {
+            Log.d("ConfigCopy", "Initial config already copied before.")
         }
     }
+
 
     private fun getLocalIpAddress(): String {
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager

@@ -1,5 +1,6 @@
 package com.example.mainscreen.presentation.actionTopBar
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -7,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -83,7 +84,11 @@ fun ActionTopBarMain(
                 ) {
                 }
             }
-            GameTime(Modifier.weight(0.6f).padding(bottom = 10.dp)
+            GameTime(
+                modifier = Modifier
+                    .weight(0.6f)
+                    .padding(bottom = 10.dp),
+                actionTopBarViewModel = actionTopBarViewModel
             )
             Column(
                 modifier = Modifier
@@ -149,8 +154,49 @@ fun ActionTopBarMain(
 
 @Composable
 fun GameTime(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    actionTopBarViewModel: ActionTopBarViewModel
+
 ) {
+    val game by actionTopBarViewModel.game.collectAsState()
+
+    var isTimeBeforeGameChange by remember { mutableStateOf(false) }
+    var isGameTimeChange by remember { mutableStateOf(false) }
+
+    if (isTimeBeforeGameChange) {
+        MinutesSecondsPickerDialog(
+            onDismiss = {
+                isTimeBeforeGameChange = !isTimeBeforeGameChange
+            },
+            onConfirm = { minutes, seconds ->
+                actionTopBarViewModel.changeTimeBeforeStart(
+                    minutes = minutes,
+                    seconds = seconds
+                )
+                isTimeBeforeGameChange = !isTimeBeforeGameChange
+            },
+            initialMinutes = game.timeBeforeStart.minute,
+            initialSeconds = game.timeBeforeStart.second,
+        )
+    }
+
+    if (isGameTimeChange) {
+        MinutesSecondsPickerDialog(
+            onDismiss = {
+                isGameTimeChange = !isGameTimeChange
+            },
+            onConfirm = { minutes, seconds ->
+                actionTopBarViewModel.changeGameTime(
+                    minutes = minutes,
+                    seconds = seconds
+                )
+                isGameTimeChange = !isGameTimeChange
+            },
+            initialMinutes = game.gameTime.minute,
+            initialSeconds = game.gameTime.second,
+        )
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -167,19 +213,25 @@ fun GameTime(
             TimeObj(
                 modifier = Modifier.weight(1f),
                 text = "Время игры",
-                time = "09:00",
+                time = "${game.gameTime.minute}:${if (game.gameTime.second > 9) "" else 0}${game.gameTime.second}",
                 timePaddingValues = 55.dp,
                 textFontSize = 26,
-                timeFontSize = 22
+                timeFontSize = 22,
+                onClick = {
+                    isGameTimeChange = !isGameTimeChange
+                }
             )
 
             TimeObj(
                 modifier = Modifier.weight(1f),
                 text = "Время до старта игры",
-                time = "00:30",
+                time = "${game.timeBeforeStart.minute}:${game.timeBeforeStart.second}",
                 timePaddingValues = 65.dp,
                 textFontSize = 18,
-                timeFontSize = 14
+                timeFontSize = 14,
+                onClick = {
+                    isTimeBeforeGameChange = !isTimeBeforeGameChange
+                }
             )
         }
     }
@@ -193,8 +245,9 @@ fun TimeObj(
     textFontSize: Int,
     time: String,
     timeFontSize: Int,
-    timePaddingValues: Dp
-){
+    timePaddingValues: Dp,
+    onClick: () -> Unit
+) {
 
     Column(
         modifier = modifier
@@ -215,10 +268,9 @@ fun TimeObj(
                 .weight(1f)
                 .clip(RoundedCornerShape(70.dp))
                 .background(Color(0xFFD0BCFF))
-                .clickable{
-
-                }
-            ,
+                .clickable {
+                    onClick()
+                },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -283,17 +335,33 @@ fun TeamName(
     val teams by actionTopBarViewModel.teams.collectAsState()
     val isTeamNameChange = remember { mutableStateOf(false) }
 
+    var newName by remember { mutableStateOf("") }
+
     if (isTeamNameChange.value) {
-        ChangeNameDialog(
+        ChangeDialog(
             name = teams.find { it.teamId == teamId }?.teamName ?: "Команда",
-            onDismis = {
+            onDismiss = {
                 isTeamNameChange.value = !isTeamNameChange.value
             },
             onConfirm = {
-                val newName = teams.find { team -> team.teamId == teamId }
-                newName?.teamName = it
-                actionTopBarViewModel.updateTeamName(newName)
+                val newTeamName = teams.find { team -> team.teamId == teamId }
+                newTeamName?.teamName = newName
+                actionTopBarViewModel.updateTeamName(newTeamName)
                 isTeamNameChange.value = !isTeamNameChange.value
+            },
+            content = {
+                OutlinedTextField(
+                    value = newName,
+                    onValueChange = {
+                        newName = it
+                    },
+                    label = {
+                        Text(
+                            text = "Введите новое имя"
+                        )
+                    }
+
+                )
             }
         )
     }
@@ -328,7 +396,9 @@ fun TeamName(
                 color = Color(0xFFFFFFFF),
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
-                    .basicMarquee(),
+                    .basicMarquee(
+                        iterations = Int.MAX_VALUE
+                    ),
                 maxLines = 1,
                 overflow = TextOverflow.Visible
             )
@@ -368,18 +438,18 @@ fun StartButton(
 
 
 @Composable
-fun ChangeNameDialog(
+fun ChangeDialog(
     name: String,
-    onDismis: () -> Unit,
-    onConfirm: (String) -> Unit
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    content: @Composable () -> Unit
 ) {
-    var newName by remember { mutableStateOf("") }
 
     AlertDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirm(newName)
+                    onConfirm()
                 }
             ) {
                 Text(
@@ -390,7 +460,7 @@ fun ChangeNameDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    onDismis()
+                    onDismiss()
                 }
             ) {
                 Text(
@@ -398,23 +468,12 @@ fun ChangeNameDialog(
                 )
             }
         },
-        onDismissRequest = { onDismis() },
+        onDismissRequest = { onDismiss() },
         title = {
             Text(name)
         },
         text = {
-            OutlinedTextField(
-                value = newName,
-                onValueChange = {
-                    newName = it
-                },
-                label = {
-                    Text(
-                        text = "Введите новое имя"
-                    )
-                }
-
-            )
+            content()
         }
     )
 

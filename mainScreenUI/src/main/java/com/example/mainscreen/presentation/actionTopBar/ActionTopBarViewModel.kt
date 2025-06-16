@@ -30,15 +30,22 @@ class ActionTopBarViewModel @Inject constructor(
         changeTeamNameUseCase.invoke(team)
     }
 
-    fun changeGameTime(time: LocalTime) {
+    fun changeGameTime(minutes: Int, seconds: Int) {
+        val time = LocalTime.of(0, minutes, seconds)
         viewModelScope.launch {
             changeGameTimeUseCase.invoke(time)
+
         }
+
     }
 
-    fun changeTimeBeforeStart(time: LocalTime) {
+    fun changeTimeBeforeStart(minutes: Int, seconds: Int) {
+        val time = LocalTime.of(0, minutes, seconds)
         viewModelScope.launch {
             changeTimeBeforeStartUseCase.invoke(time)
         }
     }
+
+
+
 }

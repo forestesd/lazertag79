@@ -1,6 +1,7 @@
 package com.example.comon.game.data
 
 import android.content.Context
+import android.util.Log
 import com.example.comon.game.domain.GameRepositoryInterface
 import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.models.GameConfig
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class GameRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) : GameRepositoryInterface {
-    private val _game = MutableStateFlow(getGameDefault())
+    private var _game = MutableStateFlow(getGameDefault())
 
     private fun getGameDefault(): Game {
         val time = loadGameConfig()
@@ -49,22 +50,27 @@ class GameRepository @Inject constructor(
 
     override suspend fun changeGameTime(time: LocalTime) {
         _game.value = _game.value.copy(gameTime = time)
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
         saveGameConfig(
             GameConfig(
-                gameTime = time.toString(),
+                gameTime = time.format(formatter),
                 timeBeforeStart = _game.value.timeBeforeStart.toString()
             )
         )
+        Log.d("GAME", game.value.gameTime.toString())
+
     }
 
     override suspend fun changeTimeBeforeStart(time: LocalTime) {
         _game.value = _game.value.copy(timeBeforeStart = time)
 
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
         saveGameConfig(
             GameConfig(
                 gameTime = _game.value.gameTime.toString(),
-                timeBeforeStart = time.toString()
+                timeBeforeStart = time.format(formatter)
             )
         )
     }
