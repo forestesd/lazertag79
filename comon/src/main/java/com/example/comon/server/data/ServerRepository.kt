@@ -41,6 +41,12 @@ class ServerRepository @Inject constructor(
         }
     }
 
+    override suspend fun changeTaggerInfo(taggers: List<TaggerInfo>) {
+        _taggerData.update {
+            taggers
+        }
+    }
+
     override suspend fun changeTeam(tagger: TaggerInfo, team: Int) {
         _taggerData.update { currentList ->
             currentList.map {

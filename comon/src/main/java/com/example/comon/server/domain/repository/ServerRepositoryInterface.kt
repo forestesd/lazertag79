@@ -12,4 +12,6 @@ interface ServerRepositoryInterface {
     suspend fun changeTeam(tagger: TaggerInfo, team: Int)
 
     fun updateTaggerInfo(taggerInfo: TaggerInfo)
+
+    suspend fun changeTaggerInfo(taggers: List<TaggerInfo>)
 }

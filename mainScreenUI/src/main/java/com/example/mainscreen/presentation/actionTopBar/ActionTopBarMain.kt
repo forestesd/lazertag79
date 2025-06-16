@@ -132,7 +132,8 @@ fun ActionTopBarMain(
                                 .fillMaxHeight()
                                 .padding(vertical = 10.dp),
                             actionTopBarViewModel = actionTopBarViewModel,
-                            taggers = taggers
+                            taggers = taggers,
+                            serverViewModel = serverViewModel
                         )
 
 
@@ -181,7 +182,8 @@ fun TeamWins(
 fun FriendlyFire(
     modifier: Modifier = Modifier,
     actionTopBarViewModel: ActionTopBarViewModel,
-    taggers: List<TaggerInfo>
+    taggers: List<TaggerInfo>,
+    serverViewModel: ServerViewModel,
 ) {
     val game by actionTopBarViewModel.game.collectAsState()
 
@@ -204,6 +206,7 @@ fun FriendlyFire(
                     friendlyFireMode = !game.friendlyFireMode,
                     taggers = taggers
                 )
+                serverViewModel.changeTaggerInfo(taggers.map { it.copy(friendlyFire = !game.friendlyFireMode) })
             },
             modifier = Modifier.padding(end = 10.dp)
         )
