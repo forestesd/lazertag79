@@ -19,7 +19,7 @@ fun taggerInfoToTaggerRes(
             maxPatrons = it.maxPatrons,
             maxHealth = it.maxHealth,
             ip = it.ip,
-            autoreload = it.autoreload,
+            autoReload = it.autoreload,
             friendlyFire = it.friendlyFire,
             isBtConnected = it.isBtConnected,
             status = it.status,
