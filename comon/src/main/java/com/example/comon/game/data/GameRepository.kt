@@ -2,12 +2,18 @@ package com.example.comon.game.data
 
 import android.content.Context
 import android.util.Log
+import com.example.comon.factory.UpdateTaggerServiceFactory
 import com.example.comon.game.domain.GameRepositoryInterface
 import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.models.GameConfig
 import com.example.comon.game.domain.models.GameConfigLocalTime
+import com.example.comon.models.TaggerInfo
+import com.example.comon.server.data.mappers.taggerInfoToTaggerRes
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
@@ -16,7 +22,9 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class GameRepository @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val serviceFactory: UpdateTaggerServiceFactory
+
 ) : GameRepositoryInterface {
     private var _game = MutableStateFlow(getGameDefault())
 
@@ -25,7 +33,8 @@ class GameRepository @Inject constructor(
         return Game(
             gameTime = time.gameTime,
             timeBeforeStart = time.timeBeforeStart,
-            isGameStart = false
+            isGameStart = false,
+            friendlyFireMode = false
         )
     }
 
@@ -73,6 +82,25 @@ class GameRepository @Inject constructor(
                 timeBeforeStart = time.format(formatter)
             )
         )
+    }
+
+    override suspend fun changeFriendlyFireMode(
+        friendlyFireMode: Boolean,
+        taggers: List<TaggerInfo>
+    ) {
+        _game.value = _game.value.copy(friendlyFireMode = friendlyFireMode)
+        coroutineScope {
+            taggers.map { tagger ->
+                async {
+                    try {
+                        val service = serviceFactory.create(baseUrl = "http://${tagger.ip}/")
+                        service.updateTaggerData(taggerInfoToTaggerRes(tagger))
+                    } catch (e: Exception) {
+                        Log.e("Change friendly fire mode", "Failed for ${tagger.ip}: $e")
+                    }
+                }
+            }.awaitAll()
+        }
     }
 
     private fun saveGameConfig(config: GameConfig) {

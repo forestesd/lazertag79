@@ -33,9 +33,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideUpdateTaggerServiceFactory(
-        okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): UpdateTaggerServiceFactory {
-        return UpdateTaggerServiceFactory(okHttpClient, gsonConverterFactory)
+        return UpdateTaggerServiceFactory(gsonConverterFactory)
     }
 }

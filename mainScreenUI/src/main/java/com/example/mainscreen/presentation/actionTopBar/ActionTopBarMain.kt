@@ -1,6 +1,5 @@
 package com.example.mainscreen.presentation.actionTopBar
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -9,6 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,10 +21,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.comon.models.TaggerInfo
 import com.example.mainscreen.R
 import com.example.mainscreen.presentation.ServerViewModel
 
@@ -102,53 +104,109 @@ fun ActionTopBarMain(
                         .weight(1f)
                 ) {
                 }
-
-                Row(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                    ) {
+
+                        TeamWins(
+                            modifier = Modifier
+                                .weight(0.8f)
+                                .fillMaxHeight()
+                                .padding(vertical = 10.dp),
+                            wins = teams.find { it.teamId == 2 }?.wins ?: 0
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(10.dp)
+                        )
+                        FriendlyFire(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .padding(vertical = 10.dp),
+                            actionTopBarViewModel = actionTopBarViewModel,
+                            taggers = taggers
+                        )
+
+
+                    }
                 }
+
             }
         }
 
+        BottomRow(
+            modifier = Modifier.weight(0.5f),
+            actionTopBarViewModel = actionTopBarViewModel,
+            taggers = taggers
+        )
+    }
+}
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(0.5f)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-            ) {
-                TeamPlayersCount(
-                    count = taggers.count { it.teamId == 2 },
-                    teamID = 2
+@Composable
+fun TeamWins(
+    modifier: Modifier = Modifier,
+    wins: Int
+) {
+    Row(
+        modifier = modifier
+            .clip(
+                RoundedCornerShape(
+                    topStart = 55.dp,
+                    topEnd = 15.dp,
+                    bottomStart = 15.dp,
+                    bottomEnd = 55.dp
                 )
-                TeamName(
-                    teamId = 2,
-                    actionTopBarViewModel = actionTopBarViewModel,
-                    modifier = Modifier.weight(1f)
-                )
-                StartButton(
-                    Modifier
-                        .padding(horizontal = 60.dp)
-                        .weight(1f)
-                )
-                TeamName(
-                    teamId = 1,
-                    actionTopBarViewModel = actionTopBarViewModel,
-                    modifier = Modifier.weight(1f)
-                )
-                TeamPlayersCount(
-                    count = taggers.count { it.teamId == 1 },
-                    teamID = 1
-                )
-            }
-        }
+            )
+            .background(Color(0xFFFBFFBD)),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Побед: $wins",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+    }
+}
 
+@Composable
+fun FriendlyFire(
+    modifier: Modifier = Modifier,
+    actionTopBarViewModel: ActionTopBarViewModel,
+    taggers: List<TaggerInfo>
+) {
+    val game by actionTopBarViewModel.game.collectAsState()
+
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(topStart = 55.dp, bottomStart = 55.dp))
+            .background(Color(0xFFEADDFF)),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Огонь по своим",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Switch(
+            checked = game.friendlyFireMode,
+            onCheckedChange = {
+                actionTopBarViewModel.changeFriendlyFireMode(
+                    friendlyFireMode = !game.friendlyFireMode,
+                    taggers = taggers
+                )
+            },
+            modifier = Modifier.padding(end = 10.dp)
+        )
     }
 }
 
@@ -288,6 +346,48 @@ fun TimeObj(
     }
 }
 
+@Composable
+fun BottomRow(
+    modifier: Modifier = Modifier,
+    actionTopBarViewModel: ActionTopBarViewModel,
+    taggers: List<TaggerInfo>
+) {
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            TeamPlayersCount(
+                count = taggers.count { it.teamId == 2 },
+                teamID = 2
+            )
+            TeamName(
+                teamId = 2,
+                actionTopBarViewModel = actionTopBarViewModel,
+                modifier = Modifier.weight(1f)
+            )
+            StartButton(
+                Modifier
+                    .padding(horizontal = 60.dp)
+                    .weight(1f)
+            )
+            TeamName(
+                teamId = 1,
+                actionTopBarViewModel = actionTopBarViewModel,
+                modifier = Modifier.weight(1f)
+            )
+            TeamPlayersCount(
+                count = taggers.count { it.teamId == 1 },
+                teamID = 1
+            )
+        }
+    }
+}
 
 @Composable
 fun TeamPlayersCount(

@@ -5,7 +5,8 @@ import java.time.LocalTime
 data class Game(
     val gameTime: LocalTime,
     val timeBeforeStart: LocalTime,
-    val isGameStart: Boolean
+    val isGameStart: Boolean,
+    val friendlyFireMode: Boolean
 )
 
 data class GameConfig(
