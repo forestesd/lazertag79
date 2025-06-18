@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.featuregame.MainScreen
+import com.example.featuregame.presentation.GameViewModel
+import com.example.featuregame.presentation.MainScreen
 import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
 import com.example.mainscreen.presentation.MainScreenUI
 import com.example.mainscreen.presentation.ServerViewModel
@@ -21,7 +22,8 @@ import com.example.navigation.UI.NavigationUI
 fun AppNavigation(
     serverViewModel: ServerViewModel,
     connectedTaggerViewModel: ConnectedTaggerViewModel,
-    actionTopBarViewModel: ActionTopBarViewModel
+    actionTopBarViewModel: ActionTopBarViewModel,
+    gameViewModel: GameViewModel
 ) {
 
 
@@ -55,11 +57,11 @@ fun AppNavigation(
                     serverViewModel = serverViewModel,
                     connectedTaggerViewModel = connectedTaggerViewModel,
                     actionTopBarViewModel = actionTopBarViewModel,
-                    onStart = {navController.navigate("game")}
+                    onStart = { navController.navigate("game") }
                 )
             }
             composable("game") {
-                MainScreen()
+                MainScreen(gameViewModel)
             }
         }
     }

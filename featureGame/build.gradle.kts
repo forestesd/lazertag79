@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -8,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,6 +36,23 @@ android {
 }
 
 dependencies {
+    implementation(project(":comon"))
+
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    implementation (libs.androidx.material3.v110)
+    implementation(libs.androidx.core.ktx)
+
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.storage)
+
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

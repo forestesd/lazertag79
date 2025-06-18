@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 data class TaggerInfo(
     val taggerId: Int,
     var teamId: Int,
-    val damageValue: Int,
+    val damageIndex: Int,
     val reloadTime: Int,
     val shockTime: Int,
     val invulnerabilityTime: Int,
@@ -33,7 +33,7 @@ data class TaggerInfo(
 data class TaggerRes(
     val taggerId: Int,
     var teamId: Int,
-    val damageValue: Int,
+    val damageIndex: Int,
     val reloadTime: Int,
     val shockTime: Int,
     val invulnerabilityTime: Int,

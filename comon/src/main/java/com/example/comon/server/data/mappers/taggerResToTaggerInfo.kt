@@ -12,7 +12,7 @@ fun taggerResToTaggerInfo(
     return TaggerInfo(
         taggerId = taggerRes.taggerId,
         teamId = taggerRes.teamId,
-        damageValue = taggerRes.damageValue,
+        damageIndex = taggerRes.damageIndex,
         reloadTime = taggerRes.reloadTime,
         shockTime = taggerRes.shockTime,
         invulnerabilityTime = taggerRes.invulnerabilityTime,

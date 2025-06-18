@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.featuregame.presentation.GameViewModel
 import com.example.lazertag79.ui.theme.Lazertag79Theme
 import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
 import com.example.mainscreen.presentation.ServerViewModel
@@ -25,10 +26,12 @@ class MainActivity : ComponentActivity() {
                 val serverViewModel: ServerViewModel = hiltViewModel()
                 val connectedTaggerViewModel: ConnectedTaggerViewModel = hiltViewModel()
                 val actionTopBarViewModel: ActionTopBarViewModel = hiltViewModel()
+                val gameViewModel: GameViewModel = hiltViewModel()
                 AppNavigation(
                     serverViewModel = serverViewModel,
                     connectedTaggerViewModel = connectedTaggerViewModel,
-                    actionTopBarViewModel = actionTopBarViewModel
+                    actionTopBarViewModel = actionTopBarViewModel,
+                    gameViewModel = gameViewModel
                 )
             }
         }

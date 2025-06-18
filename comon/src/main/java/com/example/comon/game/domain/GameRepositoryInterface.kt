@@ -15,4 +15,6 @@ interface GameRepositoryInterface {
     suspend fun changeFriendlyFireMode(friendlyFireMode: Boolean, taggers: List<TaggerInfo>)
 
     suspend fun gameStart()
+
+    suspend fun startWebSocketSubscribe(taggers: List<TaggerInfo>)
 }
