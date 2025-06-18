@@ -7,6 +7,7 @@ hilt = "2.55"
 hiltAndroid = "2.55"
 hiltCompiler = "2.55"
 hiltNavigationCompose = "1.2.0"
+javaWebsocket = "1.5.3"
 ksp = "2.0.0-1.0.21"
 kotlin = "2.0.0"
 coreKtx = "1.16.0"
@@ -43,6 +44,7 @@ compose-dnd = { module = "com.mohamedrejeb.dnd:compose-dnd", version.ref = "comp
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
+java-websocket = { module = "org.java-websocket:Java-WebSocket", version.ref = "javaWebsocket" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

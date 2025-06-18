@@ -1,6 +1,7 @@
 package com.example.comon.game.data
 
 import android.util.Log
+import com.example.comon.game.domain.models.TaggerInfoGame
 import com.example.comon.models.TaggerInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -22,8 +24,8 @@ class WebSocketManager @Inject constructor(
     private var webSocket: WebSocket? = null
     private val activeSockets = mutableMapOf<String, WebSocket>()
 
-    private val _incomingMessages = MutableStateFlow<String?>(null)
-    val incomingMessages: StateFlow<String?> = _incomingMessages
+    private val _incomingMessages = MutableStateFlow<List<TaggerInfoGame>>(emptyList())
+    val incomingMessages: StateFlow<List<TaggerInfoGame>> = _incomingMessages
 
     fun connect(url: String) {
         val client = OkHttpClient()
@@ -38,7 +40,13 @@ class WebSocketManager @Inject constructor(
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 Log.d("WEB SOCKET", text)
-                _incomingMessages.value = text
+                try {
+                    val data = Json.decodeFromString<TaggerInfoGame>(text)
+
+                    _incomingMessages.value += data
+                } catch (e: Exception) {
+                    Log.e("WEB SOCKET", "Failed to parse message", e)
+                }
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -50,10 +58,6 @@ class WebSocketManager @Inject constructor(
         }
 
         webSocket = client.newWebSocket(request, listener)
-    }
-
-    private fun handleMessage(message: String) {
-
     }
 
     fun disconnect() {

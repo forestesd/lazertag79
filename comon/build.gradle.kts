@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.java.websocket)
+
 
     implementation(libs.ktor.serialization.kotlinx.json)
 

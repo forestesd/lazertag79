@@ -78,11 +78,11 @@ class GameRepository @Inject constructor(
 
     override suspend fun startWebSocketSubscribe(taggers: List<TaggerInfo>) {
         coroutineScope {
-            taggers.map { tagger ->
+            taggers.filter { it.teamId != 0 }.map { tagger ->
                 async {
                     try {
                         webSocketManager.connect("http://${tagger.ip}/ws")
-                    }catch (e: Exception){
+                    } catch (e: Exception) {
                         Log.e("WEBSOCKET", "ip: ${tagger.ip} \n $e")
                     }
                 }

@@ -1,5 +1,6 @@
 package com.example.comon.game.domain.models
 
+import kotlinx.serialization.Serializable
 import java.time.LocalTime
 
 data class Game(
@@ -16,4 +17,13 @@ data class GameConfig(
 data class GameConfigLocalTime(
     val gameTime: LocalTime,
     val timeBeforeStart: LocalTime,
+)
+
+@Serializable
+data class TaggerInfoGame(
+    val taggerId: Int,
+    val teamId: Int,
+    val patrons: Int,
+    val health: Int,
+    val shotByTaggerId: Int,
 )
