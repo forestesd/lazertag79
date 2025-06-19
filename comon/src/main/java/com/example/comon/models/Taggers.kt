@@ -1,6 +1,9 @@
 package com.example.comon.models
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 
 data class TaggerInfo(
     val taggerId: Int,
@@ -30,6 +33,7 @@ data class TaggerInfo(
 )
 
 @Serializable
+@SerialName("config")
 data class TaggerRes(
     val taggerId: Int,
     var teamId: Int,
@@ -50,9 +54,26 @@ data class TaggerRes(
     val status: Int,
     val fireMode: Int,
     val volume: Int
-)
+):TaggerData
 
 enum class BatteryColor{
     Green, Yellow, Red
 }
 
+@Serializable
+@SerialName("game")
+data class TaggerInfoGame(
+    val taggerId: Int,
+    val teamId: Int,
+    val patrons: Int,
+    val health: Int,
+    val shotByTaggerId: Int,
+): TaggerData
+
+@Serializable
+data class TaggerResponse(
+    val data: TaggerData
+)
+
+@Serializable
+sealed interface TaggerData

@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comon.Teams.domain.domain.models.TeamModel
 import com.example.comon.Teams.domain.domain.useCases.TeamsUseCase
-import com.example.comon.game.data.WebSocketManager
+import com.example.comon.game.data.WebSocketServer
 import com.example.comon.game.domain.models.Game
-import com.example.comon.game.domain.models.TaggerInfoGame
 import com.example.comon.game.domain.use_cases.GameStartUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
 import com.example.comon.game.domain.use_cases.StartWebSocketSubscribeUseCase
 import com.example.comon.models.TaggerInfo
+import com.example.comon.models.TaggerInfoGame
 import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -27,13 +27,12 @@ class GameViewModel @Inject constructor(
     taggerInfoUseCase: TaggersInfoUseCAse,
     gameUseCase: GameUseCase,
     private val gameStartUseCase: GameStartUseCase,
-    private val startWebSocketSubscribeUseCase: StartWebSocketSubscribeUseCase,
-    private val webSocketManager: WebSocketManager
+    private val webSocketServer: WebSocketServer
 ) : ViewModel() {
     val teams: StateFlow<List<TeamModel>> = teamsUseCase()
     val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()
 
-    val message: StateFlow<List<TaggerInfoGame>> = webSocketManager.incomingMessages
+    val message: StateFlow<List<TaggerInfoGame>> = webSocketServer.incomingMessages
 
     val game: StateFlow<Game> = gameUseCase()
     private val _timerBeforeStart = MutableStateFlow(game.value.timeBeforeStart)
@@ -70,13 +69,4 @@ class GameViewModel @Inject constructor(
 
     }
 
-    fun subscribe(){
-        viewModelScope.launch {
-            startWebSocketSubscribeUseCase.invoke(taggersInfo.value)
-        }
-    }
-
-    fun unSubscribe(){
-        webSocketManager.disconnect()
-    }
 }

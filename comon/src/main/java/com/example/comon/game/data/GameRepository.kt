@@ -24,8 +24,6 @@ import javax.inject.Inject
 class GameRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val serviceFactory: UpdateTaggerServiceFactory,
-    private val webSocketManager: WebSocketManager
-
 ) : GameRepositoryInterface {
     private var _game = MutableStateFlow(getGameDefault())
 
@@ -77,17 +75,7 @@ class GameRepository @Inject constructor(
     }
 
     override suspend fun startWebSocketSubscribe(taggers: List<TaggerInfo>) {
-        coroutineScope {
-            taggers.filter { it.teamId != 0 }.map { tagger ->
-                async {
-                    try {
-                        webSocketManager.connect("http://${tagger.ip}/ws")
-                    } catch (e: Exception) {
-                        Log.e("WEBSOCKET", "ip: ${tagger.ip} \n $e")
-                    }
-                }
-            }.awaitAll()
-        }
+        //
     }
 
     override suspend fun changeTimeBeforeStart(time: LocalTime) {

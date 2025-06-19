@@ -38,6 +38,8 @@ android {
 dependencies {
     implementation(project(":comon"))
 
+    implementation(libs.java.websocket)
+
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation(libs.logging.interceptor)

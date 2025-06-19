@@ -2,6 +2,7 @@ package com.example.comon.server.data
 
 import android.util.Log
 import com.example.comon.factory.UpdateTaggerServiceFactory
+import com.example.comon.game.data.WebSocketServer
 import com.example.comon.models.TaggerInfo
 import com.example.comon.models.TaggerRes
 import com.example.comon.server.data.mappers.taggerInfoToTaggerRes
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class ServerRepository @Inject constructor(
-    private val serviceFactory: UpdateTaggerServiceFactory
+    private val webSocketServer: WebSocketServer
 ) : ServerRepositoryInterface {
     private val _taggerData = MutableStateFlow<List<TaggerInfo>>(emptyList())
     override val taggerData: StateFlow<List<TaggerInfo>> = _taggerData
@@ -55,12 +56,12 @@ class ServerRepository @Inject constructor(
             }
         }
         try {
-            val service = serviceFactory.create(baseUrl = "http://${tagger.ip}/")
-
-            service.updateTaggerData(
-                _taggerData.value.find { it.taggerId == tagger.taggerId }?.let { taggerInfo ->
-                    taggerInfoToTaggerRes(taggerInfo)
-                } ?: throw IllegalArgumentException("Tagger not found in the list")
+            webSocketServer.sendToIp(
+                ip = tagger.ip,
+                data = _taggerData.value.find { it.taggerId == tagger.taggerId }
+                    ?.let { taggerInfo ->
+                        taggerInfoToTaggerRes(taggerInfo)
+                    } ?: throw IllegalArgumentException("Tagger not found in the list")
             )
         } catch (e: Exception) {
             Log.e("Change team", e.toString())

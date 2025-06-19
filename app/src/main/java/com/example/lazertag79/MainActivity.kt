@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.comon.game.data.WebSocketServer
 import com.example.featuregame.presentation.GameViewModel
 import com.example.lazertag79.ui.theme.Lazertag79Theme
 import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
@@ -12,9 +13,12 @@ import com.example.mainscreen.presentation.ServerViewModel
 import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.example.navigation.navGraph.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var webSocketServer: WebSocketServer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,15 @@ class MainActivity : ComponentActivity() {
                     gameViewModel = gameViewModel
                 )
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            webSocketServer.stop(1000)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

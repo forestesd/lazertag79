@@ -1,5 +1,7 @@
 package com.example.comon.game.domain.models
 
+import com.example.comon.models.TaggerData
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.LocalTime
 
@@ -19,11 +21,4 @@ data class GameConfigLocalTime(
     val timeBeforeStart: LocalTime,
 )
 
-@Serializable
-data class TaggerInfoGame(
-    val taggerId: Int,
-    val teamId: Int,
-    val patrons: Int,
-    val health: Int,
-    val shotByTaggerId: Int,
-)
+

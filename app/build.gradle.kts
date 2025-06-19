@@ -58,6 +58,8 @@ dependencies {
     implementation(project(":serverV3"))
     implementation(project(":comon"))
 
+    implementation(libs.java.websocket)
+
     implementation(libs.slf4j.android)
 
     implementation(libs.hilt.android)

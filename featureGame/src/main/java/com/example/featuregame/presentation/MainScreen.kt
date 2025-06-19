@@ -23,7 +23,7 @@ fun MainScreen(
     ) {
         Button(
             onClick = {
-                gameViewModel.subscribe()
+
             }
         ) {
             Text(
@@ -32,7 +32,7 @@ fun MainScreen(
         }
         Button(
             onClick = {
-                gameViewModel.unSubscribe()
+
             }
         ) { }
     }
