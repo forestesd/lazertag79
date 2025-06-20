@@ -17,8 +17,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
+import java.time.Duration
 import javax.inject.Inject
 
 class GameRepository @Inject constructor(
@@ -26,6 +25,7 @@ class GameRepository @Inject constructor(
     private val serviceFactory: UpdateTaggerServiceFactory,
     private val webSocketServer: WebSocketServer
 ) : GameRepositoryInterface {
+
     private var _game = MutableStateFlow(getGameDefault())
 
     private fun getGameDefault(): Game {
@@ -41,53 +41,47 @@ class GameRepository @Inject constructor(
     private fun loadGameConfig(): GameConfigLocalTime {
         val file = File(context.filesDir, "config.json")
         val reader = file.reader()
-        val res = Gson().fromJson(reader, GameConfig::class.java)
-
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-
-        val gameTime: LocalTime = LocalTime.parse(res.gameTime, formatter)
-        val timeBeforeStart: LocalTime = LocalTime.parse(res.timeBeforeStart, formatter)
+        val res = Gson().fromJson(reader.readText(), GameConfig::class.java)
+        Log.i("GAME CONFIG", res.toString())
 
         return GameConfigLocalTime(
-            gameTime = gameTime,
-            timeBeforeStart = timeBeforeStart
+            gameTime = Duration.ofSeconds(res.gameTime),
+            timeBeforeStart = Duration.ofSeconds(res.timeBeforeStart)
         )
     }
 
 
     override val game: StateFlow<Game> = _game
 
-    override suspend fun changeGameTime(time: LocalTime) {
-        _game.value = _game.value.copy(gameTime = time)
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+    override suspend fun changeGameTime(duration: Duration) {
+        _game.value = _game.value.copy(gameTime = duration)
 
         saveGameConfig(
             GameConfig(
-                gameTime = time.format(formatter),
-                timeBeforeStart = _game.value.timeBeforeStart.toString()
+                gameTime = duration.seconds,
+                timeBeforeStart = _game.value.timeBeforeStart.seconds
             )
         )
         Log.d("GAME", game.value.gameTime.toString())
 
     }
 
-    override suspend fun gameStart() {
-        _game.value = _game.value.copy(isGameStart = true)
-        webSocketServer.broadCastTypeOnly("start")
-    }
+    override suspend fun changeTimeBeforeStart(duration: Duration) {
+        _game.value = _game.value.copy(timeBeforeStart = duration)
 
-
-    override suspend fun changeTimeBeforeStart(time: LocalTime) {
-        _game.value = _game.value.copy(timeBeforeStart = time)
-
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+        Log.i("GAME CONFIG", duration.toString())
 
         saveGameConfig(
             GameConfig(
-                gameTime = _game.value.gameTime.toString(),
-                timeBeforeStart = time.format(formatter)
+                gameTime = _game.value.gameTime.seconds,
+                timeBeforeStart = duration.seconds
             )
         )
+    }
+
+    override suspend fun gameStart() {
+        _game.value = _game.value.copy(isGameStart = true)
+        webSocketServer.broadCastTypeOnly("start")
     }
 
     override suspend fun changeFriendlyFireMode(
@@ -111,8 +105,6 @@ class GameRepository @Inject constructor(
 
     private fun saveGameConfig(config: GameConfig) {
         val file = File(context.filesDir, "config.json")
-        val writer = file.writer()
-        Gson().toJson(config, writer)
-        writer.close()
+        file.writeText(Gson().toJson(config))
     }
 }

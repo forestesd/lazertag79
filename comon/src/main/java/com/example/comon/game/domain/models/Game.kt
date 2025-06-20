@@ -1,24 +1,21 @@
 package com.example.comon.game.domain.models
 
-import com.example.comon.models.TaggerData
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import java.time.LocalTime
+import java.time.Duration
 
 data class Game(
-    val gameTime: LocalTime,
-    val timeBeforeStart: LocalTime,
+    val gameTime: Duration,
+    val timeBeforeStart: Duration,
     val isGameStart: Boolean,
     val friendlyFireMode: Boolean
 )
 
 data class GameConfig(
-    val gameTime: String,
-    val timeBeforeStart: String,
+    val gameTime: Long,
+    val timeBeforeStart: Long,
 )
 data class GameConfigLocalTime(
-    val gameTime: LocalTime,
-    val timeBeforeStart: LocalTime,
+    val gameTime: Duration,
+    val timeBeforeStart: Duration,
 )
 
 

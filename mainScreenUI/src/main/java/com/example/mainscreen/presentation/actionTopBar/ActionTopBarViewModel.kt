@@ -14,6 +14,7 @@ import com.example.comon.Teams.domain.domain.useCases.TeamsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -34,18 +35,20 @@ class ActionTopBarViewModel @Inject constructor(
     }
 
     fun changeGameTime(minutes: Int, seconds: Int) {
-        val time = LocalTime.of(0, minutes, seconds)
+        val duration = Duration.ofMinutes(minutes.toLong()).plusSeconds(seconds.toLong())
+
         viewModelScope.launch {
-            changeGameTimeUseCase.invoke(time)
+            changeGameTimeUseCase.invoke(duration)
 
         }
 
     }
 
     fun changeTimeBeforeStart(minutes: Int, seconds: Int) {
-        val time = LocalTime.of(0, minutes, seconds)
+        val duration = Duration.ofMinutes(minutes.toLong()).plusSeconds(seconds.toLong())
+
         viewModelScope.launch {
-            changeTimeBeforeStartUseCase.invoke(time)
+            changeTimeBeforeStartUseCase.invoke(duration)
         }
     }
 

@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -34,25 +35,34 @@ class GameViewModel @Inject constructor(
     val message: StateFlow<List<TaggerInfoGame>> = webSocketServer.incomingMessages
 
     val game: StateFlow<Game> = gameUseCase()
-    private val _timerBeforeStart = MutableStateFlow(game.value.timeBeforeStart)
 
-    val timerBeforeStart: StateFlow<LocalTime> = _timerBeforeStart
+    private val _timerBeforeStart = MutableStateFlow(game.value.timeBeforeStart)
+    val timerBeforeStart: StateFlow<Duration> = _timerBeforeStart
 
     private val _gameTimer = MutableStateFlow(game.value.gameTime)
-    val gameTimer: StateFlow<LocalTime> = _gameTimer
+    val gameTimer: StateFlow<Duration> = _gameTimer
 
     private var job: Job? = null
+
+    init {
+        viewModelScope.launch {
+            game.collect { gameState ->
+                _timerBeforeStart.value = gameState.timeBeforeStart
+                _gameTimer.value = gameState.gameTime
+            }
+        }
+    }
 
     fun startCountdown() {
         job?.cancel()
         job = viewModelScope.launch {
-            while (_timerBeforeStart.value > LocalTime.MIDNIGHT) {
+            while (_timerBeforeStart.value > Duration.ZERO) {
                 delay(1000L)
                 _timerBeforeStart.value = _timerBeforeStart.value.minusSeconds(1)
             }
             gameStartUseCase.invoke()
 
-            while (_gameTimer.value > LocalTime.MIDNIGHT) {
+            while (_gameTimer.value > Duration.ZERO) {
                 delay(1000L)
                 _gameTimer.value = _gameTimer.value.minusSeconds(1)
             }
@@ -67,7 +77,8 @@ class GameViewModel @Inject constructor(
     fun resetCountdown(timer: LocalTime) {
 
     }
-    fun startGame(){
+
+    fun startGame() {
         viewModelScope.launch {
             gameStartUseCase.invoke()
         }

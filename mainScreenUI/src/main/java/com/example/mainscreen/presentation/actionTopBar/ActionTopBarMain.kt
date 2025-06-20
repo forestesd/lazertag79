@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.example.comon.models.TaggerInfo
 import com.example.mainscreen.R
 import com.example.mainscreen.presentation.ServerViewModel
+import java.time.Duration
 
 @Composable
 fun ActionTopBarMain(
@@ -219,13 +220,17 @@ fun FriendlyFire(
 fun GameTime(
     modifier: Modifier = Modifier,
     actionTopBarViewModel: ActionTopBarViewModel
-
 ) {
     val game by actionTopBarViewModel.game.collectAsState()
 
     var isTimeBeforeGameChange by remember { mutableStateOf(false) }
     var isGameTimeChange by remember { mutableStateOf(false) }
 
+    fun formatDuration(duration: Duration): String {
+        val minutes = duration.toMinutes().toInt()
+        val seconds = duration.minusMinutes(minutes.toLong()).seconds.toInt()
+        return String.format("%02d:%02d", minutes, seconds)
+    }
     if (isTimeBeforeGameChange) {
         MinutesSecondsPickerDialog(
             onDismiss = {
@@ -238,8 +243,8 @@ fun GameTime(
                 )
                 isTimeBeforeGameChange = !isTimeBeforeGameChange
             },
-            initialMinutes = game.timeBeforeStart.minute,
-            initialSeconds = game.timeBeforeStart.second,
+            initialMinutes = game.timeBeforeStart.toMinutes().toInt(),
+            initialSeconds = game.timeBeforeStart.seconds.toInt() % 60
         )
     }
 
@@ -255,8 +260,8 @@ fun GameTime(
                 )
                 isGameTimeChange = !isGameTimeChange
             },
-            initialMinutes = game.gameTime.minute,
-            initialSeconds = game.gameTime.second,
+            initialMinutes = game.gameTime.toMinutes().toInt(),
+            initialSeconds = game.gameTime.seconds.toInt() % 60
         )
     }
 
@@ -276,7 +281,7 @@ fun GameTime(
             TimeObj(
                 modifier = Modifier.weight(1f),
                 text = "Время игры",
-                time = "${game.gameTime.minute}:${if (game.gameTime.second > 9) "" else 0}${game.gameTime.second}",
+                time = formatDuration(game.gameTime),
                 timePaddingValues = 55.dp,
                 textFontSize = 26,
                 timeFontSize = 22,
@@ -288,7 +293,7 @@ fun GameTime(
             TimeObj(
                 modifier = Modifier.weight(1f),
                 text = "Время до старта игры",
-                time = "${game.timeBeforeStart.minute}:${game.timeBeforeStart.second}",
+                time =  formatDuration(game.timeBeforeStart),
                 timePaddingValues = 65.dp,
                 textFontSize = 18,
                 timeFontSize = 14,
