@@ -21,19 +21,6 @@ fun MainScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(
-            onClick = {
 
-            }
-        ) {
-            Text(
-                text = "$message"
-            )
-        }
-        Button(
-            onClick = {
-
-            }
-        ) { }
     }
 }

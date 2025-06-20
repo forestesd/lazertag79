@@ -8,7 +8,6 @@ import com.example.comon.game.data.WebSocketServer
 import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.use_cases.GameStartUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
-import com.example.comon.game.domain.use_cases.StartWebSocketSubscribeUseCase
 import com.example.comon.models.TaggerInfo
 import com.example.comon.models.TaggerInfoGame
 import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
@@ -67,6 +66,11 @@ class GameViewModel @Inject constructor(
 
     fun resetCountdown(timer: LocalTime) {
 
+    }
+    fun startGame(){
+        viewModelScope.launch {
+            gameStartUseCase.invoke()
+        }
     }
 
 }

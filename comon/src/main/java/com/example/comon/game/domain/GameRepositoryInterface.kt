@@ -16,5 +16,4 @@ interface GameRepositoryInterface {
 
     suspend fun gameStart()
 
-    suspend fun startWebSocketSubscribe(taggers: List<TaggerInfo>)
 }

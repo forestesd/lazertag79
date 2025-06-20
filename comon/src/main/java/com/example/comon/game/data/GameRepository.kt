@@ -24,6 +24,7 @@ import javax.inject.Inject
 class GameRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val serviceFactory: UpdateTaggerServiceFactory,
+    private val webSocketServer: WebSocketServer
 ) : GameRepositoryInterface {
     private var _game = MutableStateFlow(getGameDefault())
 
@@ -72,11 +73,9 @@ class GameRepository @Inject constructor(
 
     override suspend fun gameStart() {
         _game.value = _game.value.copy(isGameStart = true)
+        webSocketServer.broadCastTypeOnly("start")
     }
 
-    override suspend fun startWebSocketSubscribe(taggers: List<TaggerInfo>) {
-        //
-    }
 
     override suspend fun changeTimeBeforeStart(time: LocalTime) {
         _game.value = _game.value.copy(timeBeforeStart = time)

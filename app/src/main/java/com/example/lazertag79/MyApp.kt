@@ -32,9 +32,7 @@ class MyApp : Application() {
     }
 
     private fun startServer(){
-        val port = 8080
         webSocketServer.start()
-        Log.d("WS_SERVER", "Server started on port: $port")
         Log.d("WS_SERVER", "Server started on wss://${getLocalIpAddress()}:8080")
     }
 

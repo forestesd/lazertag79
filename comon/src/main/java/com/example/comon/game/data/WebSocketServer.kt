@@ -52,20 +52,22 @@ class WebSocketServer @Inject constructor(
         val ip = conn?.remoteSocketAddress?.address?.hostAddress
         if (ip != null) {
             connectionsByIp[ip] = conn
-            Log.d("WS_SERVER", "New connection from IP: $ip")
+            Log.w("WS_SERVER", "New connection from IP: $ip")
         }
         conn?.send("Welcome ESP32!")
     }
 
     override fun onStart() {
-        Log.d("WS_SERVER", "Server started on port: $port")
+        Log.w("WS_SERVER", "Server started on port: $port")
     }
+
     override fun onWebsocketPing(conn: WebSocket?, f: Framedata?) {
-        Log.i("WS_SERVER", "Ping received")
-        super.onWebsocketPing(conn, f) // оставь это для автоматического ответа
+        Log.w("WS_SERVER", "Ping received")
+        super.onWebsocketPing(conn, f)
     }
+
     override fun onMessage(conn: WebSocket?, message: String) {
-        Log.d("WS_SERVER", "Received: $message")
+        Log.w("WS_SERVER", "Received: $message")
         try {
             when (val response = json.decodeFromString<TaggerData>(message)) {
                 is TaggerInfoGame -> {
@@ -97,9 +99,9 @@ class WebSocketServer @Inject constructor(
         val ip = conn?.remoteSocketAddress?.address?.hostAddress
         if (ip != null) {
             connectionsByIp.remove(ip)
-            Log.d("WS_SERVER", "Connection closed for IP: $ip")
+            Log.w("WS_SERVER", "Connection closed for IP: $ip")
         }
-        Log.d("WS_SERVER", "Closed: $reason")
+        Log.w("WS_SERVER", "Closed: $reason")
     }
 
 
@@ -110,6 +112,17 @@ class WebSocketServer @Inject constructor(
             conn.send(jsonStr)
         } else {
             Log.w("WS_SERVER", "Connection for IP $ip not found or closed")
+        }
+    }
+
+    fun broadCastTypeOnly(data: String) {
+        val jsonStr = """{"type":"$data"}"""
+        synchronized(connections) {
+            connections.forEach { conn ->
+                if (conn.isOpen) {
+                    conn.send(jsonStr)
+                }
+            }
         }
     }
 

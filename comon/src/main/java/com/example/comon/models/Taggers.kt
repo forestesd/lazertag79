@@ -75,5 +75,7 @@ data class TaggerResponse(
     val data: TaggerData
 )
 
+
 @Serializable
 sealed interface TaggerData
+
