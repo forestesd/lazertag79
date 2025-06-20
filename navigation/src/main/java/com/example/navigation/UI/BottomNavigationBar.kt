@@ -19,7 +19,8 @@ fun BottomNavigationBar(
     selectedItem: Int,
     onMainClick: () -> Unit,
     onFinanceClick: () -> Unit,
-    onNewsFeedClicked: () -> Unit
+    onNewsFeedClicked: () -> Unit,
+    onGameClick: () -> Unit
 ) {
     NavigationBar(
         modifier = Modifier.navigationBarsPadding(),
@@ -37,6 +38,17 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = selectedItem == 1,
             onClick = {
+                onGameClick()
+            },
+            label = { Text("Игра") },
+            icon = {
+                Icon(Icons.Default.Star, contentDescription = "")
+            }
+        )
+
+        NavigationBarItem(
+            selected = selectedItem == 2,
+            onClick = {
                 onFinanceClick()
             },
             label = { Text("Финансы") },
@@ -46,7 +58,7 @@ fun BottomNavigationBar(
         )
 
         NavigationBarItem(
-            selected = selectedItem == 2,
+            selected = selectedItem == 3,
             onClick = {
                 onNewsFeedClicked()
             },

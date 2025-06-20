@@ -36,12 +36,16 @@ fun AppNavigation(
             selectedItem = 0
             navController.navigate("main")
         },
-        onFinanceClick = {
+        onGameClick = {
             selectedItem = 1
+            navController.navigate("game")
+        },
+        onFinanceClick = {
+            selectedItem = 2
             navController.navigate("")
         },
         onNewsFeedClick = {
-            selectedItem = 2
+            selectedItem = 3
             navController.navigate("")
         }
     ) { paddingValues ->
@@ -57,7 +61,10 @@ fun AppNavigation(
                     serverViewModel = serverViewModel,
                     connectedTaggerViewModel = connectedTaggerViewModel,
                     actionTopBarViewModel = actionTopBarViewModel,
-                    onStart = { navController.navigate("game") }
+                    onStart = {
+                        selectedItem = 1
+                        navController.navigate("game")
+                    }
                 )
             }
             composable("game") {

@@ -11,6 +11,7 @@ fun NavigationUI(
     onMainClick: () -> Unit,
     onFinanceClick: () -> Unit,
     onNewsFeedClick: () -> Unit,
+    onGameClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold (
@@ -20,7 +21,8 @@ fun NavigationUI(
                 selectedItem,
                 onMainClick,
                 onFinanceClick,
-                onNewsFeedClick
+                onNewsFeedClick,
+                onGameClick
             )
         }
     ){
