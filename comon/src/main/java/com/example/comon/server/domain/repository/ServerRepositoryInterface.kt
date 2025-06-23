@@ -1,6 +1,8 @@
 package com.example.comon.server.domain.repository
 
 import com.example.comon.models.TaggerInfo
+import com.example.comon.models.TaggerInfoGame
+import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.models.TaggerRes
 import kotlinx.coroutines.flow.StateFlow
 
@@ -14,4 +16,6 @@ interface ServerRepositoryInterface {
     fun updateTaggerInfo(taggerInfo: TaggerInfo)
 
     suspend fun changeTaggerInfo(taggers: List<TaggerInfo>)
+
+    suspend fun taggerInfoGameResMapper(taggerGameRes: TaggerInfoGameRes): Result<TaggerInfoGame>
 }

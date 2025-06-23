@@ -114,7 +114,7 @@ fun TeamPlayerCard(
 
             ) {
             Image(
-                painter = painterResource(R.drawable.img),
+                painter = painterResource(com.example.comon.R.drawable.img),
                 contentDescription = "Player Icon",
                 modifier = Modifier.size(80.dp)
             )
@@ -125,7 +125,7 @@ fun TeamPlayerCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = tagger.playerName ,
+                    text = tagger.playerName,
                     fontSize = 16.sp
                 )
                 Column(
@@ -162,7 +162,7 @@ fun TeamPlayerCard(
                 }
             }
             Icon(
-                painterResource(R.drawable.gun),
+                painterResource(com.example.comon.R.drawable.gun),
                 contentDescription = "Gun image",
                 modifier = Modifier
                     .size(90.dp)
@@ -198,7 +198,7 @@ fun BatteryPercents(
 
     Row {
         Text(
-            text = "${tagger.bandageCharge }%",
+            text = "${tagger.bandageCharge}%",
             color = when (tagger.bandageChargeColor) {
                 BatteryColor.Green -> Color(0xFF1EC70B)
                 BatteryColor.Yellow -> Color(0xFFFFFB00)

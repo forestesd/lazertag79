@@ -38,7 +38,7 @@ fun MainScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
+            ScoreBoardGame(gameViewModel = gameViewModel)
         }
     }
 }

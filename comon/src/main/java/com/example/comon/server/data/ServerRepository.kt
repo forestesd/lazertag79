@@ -4,7 +4,10 @@ import android.util.Log
 import com.example.comon.factory.UpdateTaggerServiceFactory
 import com.example.comon.game.data.WebSocketServer
 import com.example.comon.models.TaggerInfo
+import com.example.comon.models.TaggerInfoGame
+import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.models.TaggerRes
+import com.example.comon.server.data.mappers.taggerInfoGameResToTaggerInfoGame
 import com.example.comon.server.data.mappers.taggerInfoToTaggerRes
 import com.example.comon.server.data.mappers.taggerResToTaggerInfo
 import com.example.comon.server.domain.repository.ServerRepositoryInterface
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import kotlin.math.exp
 
 class ServerRepository @Inject constructor(
     private val webSocketServer: WebSocketServer
@@ -30,6 +34,23 @@ class ServerRepository @Inject constructor(
                     else it
                 }
             }
+        }
+    }
+
+    override suspend fun taggerInfoGameResMapper(taggerGameRes: TaggerInfoGameRes): Result<TaggerInfoGame> {
+        return try {
+            val taggerInfo = _taggerData.value.find { it.taggerId == taggerGameRes.taggerId }
+                ?: throw IllegalArgumentException("Tagger with ID ${taggerGameRes.taggerId} not found")
+
+            Result.success(
+                taggerInfoGameResToTaggerInfoGame(
+                    taggerInfo = taggerInfo,
+                    taggerGameRes = taggerGameRes
+                )
+            )
+        } catch (e: Exception) {
+            Log.e("Tagger_Info_Game_Res_Mapper", e.toString())
+            Result.failure(e)
         }
     }
 

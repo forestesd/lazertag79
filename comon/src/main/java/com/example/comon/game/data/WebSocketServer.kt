@@ -3,12 +3,15 @@ package com.example.comon.game.data
 import android.util.Log
 import com.example.comon.models.TaggerData
 import com.example.comon.models.TaggerInfoGame
+import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.models.TaggerRes
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
+import com.example.comon.server.domain.useCases.TaggerInfoGameResMapperUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -24,7 +27,8 @@ import javax.inject.Provider
 
 class WebSocketServer @Inject constructor(
     port: Int,
-    private val connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>
+    private val connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
+    private val taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>
 ) : WebSocketServer(InetSocketAddress(port)) {
 
     private val _incomingMessages = MutableStateFlow<List<TaggerInfoGame>>(emptyList())
@@ -39,7 +43,7 @@ class WebSocketServer @Inject constructor(
         ignoreUnknownKeys = true
         serializersModule = SerializersModule {
             polymorphic(TaggerData::class) {
-                subclass(TaggerInfoGame::class)
+                subclass(TaggerInfoGameRes::class)
                 subclass(TaggerRes::class)
             }
         }
@@ -70,12 +74,29 @@ class WebSocketServer @Inject constructor(
         Log.w("WS_SERVER", "Received: $message")
         try {
             when (val response = json.decodeFromString<TaggerData>(message)) {
-                is TaggerInfoGame -> {
-                    val existing = _incomingMessages.value.find { it.taggerId == response.taggerId }
-                    _incomingMessages.value = if (existing != null) {
-                        _incomingMessages.value.filter { it.taggerId != response.taggerId }
-                    } else {
-                        _incomingMessages.value + response
+                is TaggerInfoGameRes -> {
+                    coroutineScope.launch {
+                        val existing =
+                            _incomingMessages.value.find { it.taggerId == response.taggerId }
+
+                        taggerInfoGameResMapperUseCase.get().invoke(response).fold(
+                            onSuccess = { mappedTagger ->
+                                _incomingMessages.update { currentList ->
+                                    if (existing != null) {
+                                        currentList.filter { it.taggerId != response.taggerId } + mappedTagger
+                                    } else {
+                                        currentList + mappedTagger
+                                    }
+                                }
+                            },
+                            onFailure = { e ->
+                                Log.e(
+                                    "WS_SERVER",
+                                    "Mapping failed for tagger ${response.taggerId}",
+                                    e
+                                )
+                            }
+                        )
                     }
                 }
 
@@ -90,6 +111,7 @@ class WebSocketServer @Inject constructor(
             Log.e("WEB SOCKET", "Failed to parse message", e)
         }
     }
+
 
     override fun onError(conn: WebSocket?, ex: java.lang.Exception?) {
         Log.e("WS_SERVER", "Error", ex)

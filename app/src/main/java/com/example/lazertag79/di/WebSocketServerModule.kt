@@ -2,6 +2,7 @@ package com.example.lazertag79.di
 
 import com.example.comon.game.data.WebSocketServer
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
+import com.example.comon.server.domain.useCases.TaggerInfoGameResMapperUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,13 @@ object WebSocketServerModule {
 
     @Provides
     @Singleton
-    fun provideWebSocketServer(connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>): WebSocketServer {
-        return WebSocketServer(port = 8080, connectTaggerUseCaseProvider = connectTaggerUseCaseProvider)
+    fun provideWebSocketServer(
+        connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
+        taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>
+    ): WebSocketServer {
+        return WebSocketServer(
+            port = 8080, connectTaggerUseCaseProvider = connectTaggerUseCaseProvider,
+            taggerInfoGameResMapperUseCase = taggerInfoGameResMapperUseCase,
+        )
     }
 }

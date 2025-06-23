@@ -27,7 +27,7 @@ class TeamsRepository @Inject constructor() : TeamsRepositoryInterface {
     override fun changeTeamName(team: TeamModel?) {
         _teams.update { list ->
             list.map {
-                if (it == team) team
+                if (it.teamId == team?.teamId) team
                 else it
             }
         }
