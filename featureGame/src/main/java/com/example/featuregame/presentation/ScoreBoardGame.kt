@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -82,10 +82,18 @@ fun ScoreBoardGame(
                 verticalArrangement = Arrangement.Top
             ) {
 
+                items(
+                    taggerInfoGame.filter { it.teamId == 1 },
+                    key = { item -> item.taggerId }) { taggerGame ->
+                    GamePlayerCard(taggerGame)
+                }
+
             }
-            Divider(modifier = Modifier
-                .fillMaxHeight()
-                .width(2.dp), color = Color.Black)
+            Divider(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(2.dp), color = Color.Black
+            )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -101,7 +109,11 @@ fun ScoreBoardGame(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-
+                items(
+                    taggerInfoGame.filter { it.teamId == 2 },
+                    key = { item -> item.taggerId }) { taggerGame ->
+                    GamePlayerCard(taggerGame)
+                }
             }
         }
     }

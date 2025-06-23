@@ -21,12 +21,12 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.comon.models.TaggerInfoGameRes
+import com.example.comon.models.TaggerInfoGame
 
 @Composable
 fun GamePlayerCard(
-    taggerGame: TaggerInfoGameRes
-){
+    taggerGame: TaggerInfoGame
+) {
 
     Card(
         modifier = Modifier
@@ -54,7 +54,7 @@ fun GamePlayerCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = taggerGame.playerName ,
+                    text = taggerGame.taggerName,
                     fontSize = 16.sp
                 )
                 Column(
@@ -64,21 +64,17 @@ fun GamePlayerCard(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Text(
+                        text = taggerGame.taggerName,
+                        fontSize = 16.sp
+                    )
                     Row {
                         Text(
-                            text = "Таггер:",
+                            text = taggerGame.patrons.toString(),
                             fontSize = 16.sp
                         )
 
                     }
-                    Row {
-                        Text(
-                            text = "Повязка:",
-                            fontSize = 16.sp
-                        )
-
-                    }
-
                 }
                 Column(
                     modifier = Modifier
@@ -99,5 +95,4 @@ fun GamePlayerCard(
             )
         }
     }
-}
 }

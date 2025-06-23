@@ -9,6 +9,7 @@ import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.use_cases.GameStartUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
 import com.example.comon.models.TaggerInfo
+import com.example.comon.models.TaggerInfoGame
 import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +34,7 @@ class GameViewModel @Inject constructor(
 
     val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()
 
-    val taggerGame: StateFlow<List<TaggerInfoGameRes>> = webSocketServer.incomingMessages
+    val taggerGame: StateFlow<List<TaggerInfoGame>> = webSocketServer.incomingMessages
 
     val game: StateFlow<Game> = gameUseCase()
 
