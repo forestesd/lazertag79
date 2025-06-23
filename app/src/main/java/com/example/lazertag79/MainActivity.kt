@@ -41,13 +41,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        try {
-            webSocketServer.stop(1000)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
 }

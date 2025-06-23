@@ -1,7 +1,9 @@
 package com.example.featuregame.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,45 +50,59 @@ fun GamePlayerCard(
                 contentDescription = "Player Icon",
                 modifier = Modifier.size(80.dp)
             )
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f),
-                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = taggerGame.taggerName,
-                    fontSize = 16.sp
-                )
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxWidth(taggerGame.healthBarFill)
+                        .background(
+                            Color(0xFF4C5BF1)
+                        )
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = taggerGame.taggerName,
-                        fontSize = 16.sp
-                    )
-                    Row {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = taggerGame.patrons.toString(),
+                            text = taggerGame.taggerName,
                             fontSize = 16.sp
                         )
+                        Row {
+                            Text(
+                                text = "Патроны",
+                                fontSize = 16.sp
+                            )
+                            Text(
+                                text = taggerGame.patrons.toString(),
+                                fontSize = 16.sp
+                            )
+
+                        }
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
                     }
                 }
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                }
             }
+
             Icon(
                 painterResource(com.example.comon.R.drawable.gun),
                 contentDescription = "Gun image",

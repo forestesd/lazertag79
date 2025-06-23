@@ -13,5 +13,6 @@ fun taggerInfoGameResToTaggerInfoGame(
     taggerName = taggerInfo.playerName,
     patrons = taggerGameRes.patrons,
     health = taggerGameRes.health,
-    shotByTaggerId = taggerGameRes.shotByTaggerId
+    shotByTaggerId = taggerGameRes.shotByTaggerId,
+    healthBarFill = (taggerGameRes.health / taggerInfo.maxHealth).toFloat()
 )

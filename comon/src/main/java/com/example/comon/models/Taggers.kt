@@ -84,4 +84,5 @@ data class TaggerInfoGame(
     val patrons: Int,
     val health: Int,
     val shotByTaggerId: Int,
+    val healthBarFill: Float
 )

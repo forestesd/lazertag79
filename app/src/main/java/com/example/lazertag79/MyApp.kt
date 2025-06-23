@@ -5,6 +5,9 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.text.format.Formatter
 import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.comon.game.data.WebSocketServer
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
 import dagger.hilt.android.HiltAndroidApp
@@ -12,7 +15,7 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltAndroidApp
-class MyApp : Application() {
+class MyApp : Application(){
     @Inject
     lateinit var connectTaggerUseCase: ConnectTaggerUseCase
     @Inject
@@ -20,16 +23,14 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver(webSocketServer))
+
         startServer()
 
         copyRawConfigToFileIfNeeded(this)
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
-        webSocketServer.stop()
-        Log.d("WS_SERVER", "Server stopped in onTerminate()")
-    }
 
     private fun startServer(){
         webSocketServer.start()
