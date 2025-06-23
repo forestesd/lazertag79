@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -19,12 +22,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comon.models.TaggerInfoGame
+import com.example.featuregame.R
 
 @Composable
 fun GamePlayerCard(
@@ -34,7 +40,7 @@ fun GamePlayerCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(90.dp)
             .padding(horizontal = 16.dp, vertical = 10.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp,
@@ -59,8 +65,9 @@ fun GamePlayerCard(
                     modifier = Modifier
                         .fillMaxHeight()
                         .fillMaxWidth(taggerGame.healthBarFill)
+                        .clip(RoundedCornerShape(16.dp))
                         .background(
-                            Color(0xFF4C5BF1)
+                            Color(0xB74C5BF1)
                         )
                 )
                 Row(
@@ -68,6 +75,10 @@ fun GamePlayerCard(
                         .fillMaxSize(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Text(
+                        text = taggerGame.taggerName,
+                        fontSize = 16.sp
+                    )
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -75,14 +86,15 @@ fun GamePlayerCard(
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            text = taggerGame.taggerName,
-                            fontSize = 16.sp
-                        )
-                        Row {
-                            Text(
-                                text = "Патроны",
-                                fontSize = 16.sp
+
+                        Row (
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxHeight()
+                        ){
+                            Icon(
+                                painterResource(com.example.comon.R.drawable.ammo),
+                                contentDescription = "Ammo Icon"
                             )
                             Text(
                                 text = taggerGame.patrons.toString(),
@@ -90,26 +102,43 @@ fun GamePlayerCard(
                             )
 
                         }
-                    }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
 
                     }
+                    Icon(
+                        painterResource(com.example.comon.R.drawable.gun),
+                        contentDescription = "Gun image",
+                        modifier = Modifier
+                            .size(90.dp)
+                            .scale(1.5f)
+                            .padding(end = 10.dp)
+                    )
                 }
             }
 
-            Icon(
-                painterResource(com.example.comon.R.drawable.gun),
-                contentDescription = "Gun image",
+
+            Column(
                 modifier = Modifier
-                    .size(90.dp)
-                    .scale(1.5f)
-            )
+                    .fillMaxHeight()
+                    .weight(0.5f).padding(end = 20.dp),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Убийств: 10",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Смертей: 10",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "K/D: 0",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

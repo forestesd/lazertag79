@@ -36,8 +36,8 @@ fun taggerResToTaggerInfo(
             in 30..49 -> BatteryColor.Yellow
             else -> BatteryColor.Red
         },
-        autoreload = taggerRes.autoReload,
-        friendlyFire = taggerRes.friendlyFire,
+        isAutoReload = taggerRes.isAutoReload,
+        isFriendlyFire = taggerRes.isFriendlyFire,
         isBtConnected = taggerRes.isBtConnected,
         status = taggerRes.status,
         fireMode = taggerRes.fireMode,

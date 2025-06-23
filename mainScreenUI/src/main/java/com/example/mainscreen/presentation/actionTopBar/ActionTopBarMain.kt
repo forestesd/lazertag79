@@ -209,7 +209,7 @@ fun FriendlyFire(
                     friendlyFireMode = !game.friendlyFireMode,
                     taggers = taggers
                 )
-                serverViewModel.changeTaggerInfo(taggers.map { it.copy(friendlyFire = !game.friendlyFireMode) })
+                serverViewModel.changeTaggerInfo(taggers.map { it.copy(isFriendlyFire = !game.friendlyFireMode) })
             },
             modifier = Modifier.padding(end = 10.dp)
         )

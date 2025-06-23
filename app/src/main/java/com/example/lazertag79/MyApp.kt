@@ -33,6 +33,7 @@ class MyApp : Application(){
 
 
     private fun startServer(){
+
         webSocketServer.start()
         Log.d("WS_SERVER", "Server started on wss://${getLocalIpAddress()}:8080")
     }

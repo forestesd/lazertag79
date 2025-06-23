@@ -51,6 +51,10 @@ fun ScoreBoardGame(
                     .padding(16.dp),
                 fontSize = 28.sp
             )
+            Divider(
+                modifier = Modifier.width(2.dp).fillMaxHeight(),
+                color = Color.Black
+            )
             Text(
                 text = teams[1].teamName,
                 modifier = Modifier
