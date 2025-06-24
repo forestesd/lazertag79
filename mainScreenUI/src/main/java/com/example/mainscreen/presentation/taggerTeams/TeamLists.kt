@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.example.comon.models.TaggerInfo
 import com.example.mainscreen.presentation.ServerViewModel
+import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.mohamedrejeb.compose.dnd.DragAndDropContainer
 import com.mohamedrejeb.compose.dnd.DragAndDropState
 import com.mohamedrejeb.compose.dnd.drag.DraggableItem
@@ -24,13 +25,16 @@ import com.mohamedrejeb.compose.dnd.drop.dropTarget
 @Composable
 fun RedTeamList(
     serverViewMode: ServerViewModel,
-    dndState: DragAndDropState<TaggerInfo?>
-) {
+    dndState: DragAndDropState<TaggerInfo?>,
+    actionTopBarViewModel: ActionTopBarViewModel,
+    ) {
+    val game by actionTopBarViewModel.game.collectAsState()
     val taggers by serverViewMode.taggerData.collectAsState()
     val onDragTaggerId by serverViewMode.onDragTaggerId.collectAsState()
 
     DragAndDropContainer(
-        state = dndState
+        state = dndState,
+        enabled = !game.isGameStart
     ) {
         LazyColumn(
             modifier = Modifier
@@ -92,13 +96,16 @@ fun RedTeamList(
 @Composable
 fun BlueTeamList(
     serverViewMode: ServerViewModel,
-    dndState: DragAndDropState<TaggerInfo?>
+    dndState: DragAndDropState<TaggerInfo?>,
+    actionTopBarViewModel: ActionTopBarViewModel,
 ) {
+    val game by actionTopBarViewModel.game.collectAsState()
     val taggers by serverViewMode.taggerData.collectAsState()
     val onDragTaggerId by serverViewMode.onDragTaggerId.collectAsState()
 
     DragAndDropContainer(
-        state = dndState
+        state = dndState,
+        enabled = !game.isGameStart
     ) {
         LazyColumn(
             modifier = Modifier

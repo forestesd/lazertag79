@@ -9,6 +9,7 @@ import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.use_cases.ChangeFriendlyFireModeUseCase
 import com.example.comon.game.domain.use_cases.ChangeGameTimeUseCase
 import com.example.comon.game.domain.use_cases.ChangeTimeBeforeStartUseCase
+import com.example.comon.game.domain.use_cases.GameStopUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
 import com.example.comon.models.TaggerInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,8 @@ class ActionTopBarViewModel @Inject constructor(
     gameUseCase: GameUseCase,
     private val changeGameTimeUseCase: ChangeGameTimeUseCase,
     private val changeTimeBeforeStartUseCase: ChangeTimeBeforeStartUseCase,
-    private val changeFriendlyFireModeUseCase: ChangeFriendlyFireModeUseCase
+    private val changeFriendlyFireModeUseCase: ChangeFriendlyFireModeUseCase,
+    private val gameStopUseCase: GameStopUseCase
 ) : ViewModel() {
     val teams: StateFlow<List<TeamModel>> = teamsUseCase.invoke()
     val game: StateFlow<Game> = gameUseCase.invoke()
@@ -57,6 +59,12 @@ class ActionTopBarViewModel @Inject constructor(
                 friendlyFireMode = friendlyFireMode,
                 taggers = taggers
             )
+        }
+    }
+
+    fun stopGame() {
+        viewModelScope.launch {
+            gameStopUseCase.invoke()
         }
     }
 

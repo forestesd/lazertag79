@@ -31,7 +31,8 @@ fun MainScreenUI(
         ) {
             TeamAssignmentScreen(
                 serverViewMode = serverViewModel,
-                connectedTaggerViewModel = connectedTaggerViewModel
+                connectedTaggerViewModel = connectedTaggerViewModel,
+                actionTopBarViewModel = actionTopBarViewModel
             )
         }
     }

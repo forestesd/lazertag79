@@ -53,6 +53,7 @@ fun ActionTopBarMain(
 ) {
     val taggers by serverViewModel.taggerData.collectAsState()
     val teams by actionTopBarViewModel.teams.collectAsState()
+    val game by actionTopBarViewModel.game.collectAsState()
 
     Column(
         modifier = Modifier
@@ -135,7 +136,8 @@ fun ActionTopBarMain(
                                 .padding(vertical = 10.dp),
                             actionTopBarViewModel = actionTopBarViewModel,
                             taggers = taggers,
-                            serverViewModel = serverViewModel
+                            serverViewModel = serverViewModel,
+                            enabled = !game.isGameStart
                         )
 
 
@@ -187,6 +189,7 @@ fun FriendlyFire(
     actionTopBarViewModel: ActionTopBarViewModel,
     taggers: List<TaggerInfo>,
     serverViewModel: ServerViewModel,
+    enabled: Boolean
 ) {
     val game by actionTopBarViewModel.game.collectAsState()
 
@@ -211,7 +214,8 @@ fun FriendlyFire(
                 )
                 serverViewModel.changeTaggerInfo(taggers.map { it.copy(isFriendlyFire = !game.friendlyFireMode) })
             },
-            modifier = Modifier.padding(end = 10.dp)
+            modifier = Modifier.padding(end = 10.dp),
+            enabled = enabled
         )
     }
 }
@@ -287,19 +291,21 @@ fun GameTime(
                 timeFontSize = 22,
                 onClick = {
                     isGameTimeChange = !isGameTimeChange
-                }
+                },
+                enabled = !game.isGameStart
             )
 
             TimeObj(
                 modifier = Modifier.weight(1f),
                 text = "Время до старта игры",
-                time =  formatDuration(game.timeBeforeStart),
+                time = formatDuration(game.timeBeforeStart),
                 timePaddingValues = 65.dp,
                 textFontSize = 18,
                 timeFontSize = 14,
                 onClick = {
                     isTimeBeforeGameChange = !isTimeBeforeGameChange
-                }
+                },
+                enabled = !game.isGameStart
             )
         }
     }
@@ -314,6 +320,7 @@ fun TimeObj(
     time: String,
     timeFontSize: Int,
     timePaddingValues: Dp,
+    enabled: Boolean,
     onClick: () -> Unit
 ) {
 
@@ -336,7 +343,7 @@ fun TimeObj(
                 .weight(1f)
                 .clip(RoundedCornerShape(70.dp))
                 .background(Color(0xFFD0BCFF))
-                .clickable {
+                .clickable(enabled) {
                     onClick()
                 },
             horizontalArrangement = Arrangement.Center,
@@ -363,6 +370,7 @@ fun BottomRow(
     taggers: List<TaggerInfo>,
     onStart: () -> Unit
 ) {
+    val game by actionTopBarViewModel.game.collectAsState()
 
     Box(
         modifier = modifier
@@ -386,7 +394,9 @@ fun BottomRow(
                 Modifier
                     .padding(horizontal = 60.dp)
                     .weight(1f),
-                onStart = onStart
+                onStart = onStart,
+                isGameStop = !game.isGameStart,
+                onStop = { actionTopBarViewModel.stopGame() }
             )
             TeamName(
                 teamId = 1,
@@ -528,20 +538,26 @@ fun TeamName(
 @Composable
 fun StartButton(
     modifier: Modifier = Modifier,
-    onStart: () -> Unit
+    onStart: () -> Unit,
+    onStop: () -> Unit,
+    isGameStop: Boolean
 ) {
     Box(
         modifier = modifier
             .height(75.dp)
             .width(260.dp)
             .clip(RoundedCornerShape(topEnd = 45.dp, topStart = 45.dp))
-            .background(Color(0xFFB9FF93))
+            .background(if (isGameStop) Color(0xFFB9FF93)  else Color(0xFFE16C6C))
             .clickable {
-                onStart()
+                if (isGameStop) {
+                    onStart()
+                } else {
+                    onStop()
+                }
             }
     ) {
         Text(
-            text = "Старт",
+            text = if (isGameStop) "Старт" else "Стоп",
             fontSize = 28.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.align(Alignment.Center)

@@ -13,13 +13,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.comon.models.TaggerInfo
 import com.example.mainscreen.presentation.ServerViewModel
+import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.mohamedrejeb.compose.dnd.rememberDragAndDropState
 
 @Composable
 fun TeamAssignmentScreen(
     serverViewMode: ServerViewModel,
-    connectedTaggerViewModel: ConnectedTaggerViewModel
-) {
+    connectedTaggerViewModel: ConnectedTaggerViewModel,
+    actionTopBarViewModel: ActionTopBarViewModel,
+    ) {
     val dndState = rememberDragAndDropState<TaggerInfo?>()
     val drawState by connectedTaggerViewModel.drawerState.collectAsState()
 
@@ -30,7 +32,7 @@ fun TeamAssignmentScreen(
 
             val animatedWeight by animateFloatAsState(
                 targetValue = if (drawState == DrawerValue.Open) 0.6f else 0.04f,
-                animationSpec = tween(durationMillis = 200) // или spring(), если хочешь эффект подпрыгивания
+                animationSpec = tween(durationMillis = 200)
             )
             Box(
                 modifier = Modifier
@@ -49,7 +51,7 @@ fun TeamAssignmentScreen(
                     .fillMaxHeight()
                     .weight(1f)
             ) {
-                BlueTeamList(serverViewMode, dndState)
+                BlueTeamList(serverViewMode, dndState, actionTopBarViewModel)
             }
 
             Box(
@@ -57,7 +59,7 @@ fun TeamAssignmentScreen(
                     .fillMaxHeight()
                     .weight(1f)
             ) {
-                RedTeamList(serverViewMode, dndState)
+                RedTeamList(serverViewMode, dndState, actionTopBarViewModel )
             }
         }
     }
