@@ -93,8 +93,7 @@ class GameRepository @Inject constructor(
             taggers.map { tagger ->
                 async {
                     try {
-                        val service = serviceFactory.create(baseUrl = "http://${tagger.ip}/")
-                        service.updateTaggerData(taggerInfoToTaggerRes(tagger.copy(isFriendlyFire = friendlyFireMode)))
+                        webSocketServer.sendToIp(tagger.ip, taggerInfoToTaggerRes(tagger))
                     } catch (e: Exception) {
                         Log.e("Change friendly fire mode", "Failed for ${tagger.ip}: $e")
                     }
