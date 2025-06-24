@@ -41,6 +41,7 @@ fun taggerResToTaggerInfo(
         isBtConnected = taggerRes.isBtConnected,
         status = taggerRes.status,
         fireMode = taggerRes.fireMode,
-        volume = taggerRes.volume
+        volume = taggerRes.volume,
+        maxPatronsForGame = taggerRes.maxPatronsForGame
     )
 }
