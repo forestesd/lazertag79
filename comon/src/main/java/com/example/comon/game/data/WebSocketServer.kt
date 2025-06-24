@@ -148,4 +148,18 @@ class WebSocketServer @Inject constructor(
         }
     }
 
+    fun startGameBroadcast(data: String, time: Long) {
+        val jsonStr = """{
+            "type":"$data",
+            "timeToStart":"$time"
+            }""".trimMargin()
+        synchronized(connections) {
+            connections.forEach { conn ->
+                if (conn.isOpen) {
+                    conn.send(jsonStr)
+                }
+            }
+        }
+    }
+
 }

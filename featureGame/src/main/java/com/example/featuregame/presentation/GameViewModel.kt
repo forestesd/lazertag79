@@ -7,10 +7,10 @@ import com.example.comon.Teams.domain.domain.useCases.TeamsUseCase
 import com.example.comon.game.data.WebSocketServer
 import com.example.comon.game.domain.models.Game
 import com.example.comon.game.domain.use_cases.GameStartUseCase
+import com.example.comon.game.domain.use_cases.GameStopUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
 import com.example.comon.models.TaggerInfo
 import com.example.comon.models.TaggerInfoGame
-import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -27,6 +27,7 @@ class GameViewModel @Inject constructor(
     taggerInfoUseCase: TaggersInfoUseCAse,
     gameUseCase: GameUseCase,
     private val gameStartUseCase: GameStartUseCase,
+    private val gameStopUseCase: GameStopUseCase,
     private val webSocketServer: WebSocketServer
 ) : ViewModel() {
 
@@ -69,13 +70,18 @@ class GameViewModel @Inject constructor(
                 delay(1000L)
                 _gameTimer.value = _gameTimer.value.minusSeconds(1)
             }
-
+            gameStopUseCase.invoke()
         }
     }
 
-    fun stopCountdown() {
+    private fun stopCountdown() {
         job?.cancel()
     }
 
-
+    fun stopGame() {
+        viewModelScope.launch {
+            stopCountdown()
+            gameStopUseCase.invoke()
+        }
+    }
 }

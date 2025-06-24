@@ -65,7 +65,7 @@ enum class BatteryColor{
 data class TaggerInfoGameRes(
     val taggerId: Int,
     val teamId: Int,
-    val patrons: Int,
+    val patronsForGame: Int,
     val health: Int,
     val shotByTaggerId: Int,
 ): TaggerData

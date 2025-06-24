@@ -81,7 +81,12 @@ class GameRepository @Inject constructor(
 
     override suspend fun gameStart() {
         _game.value = _game.value.copy(isGameStart = true)
-        webSocketServer.broadCastTypeOnly("start")
+        webSocketServer.startGameBroadcast("start",game.value.timeBeforeStart.seconds )
+    }
+
+    override suspend fun gameStop() {
+        _game.value = _game.value.copy(isGameStart = false)
+        webSocketServer.broadCastTypeOnly("stop")
     }
 
     override suspend fun changeFriendlyFireMode(

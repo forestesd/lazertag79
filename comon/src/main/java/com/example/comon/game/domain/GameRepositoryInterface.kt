@@ -16,4 +16,6 @@ interface GameRepositoryInterface {
 
     suspend fun gameStart()
 
+    suspend fun gameStop()
+
 }

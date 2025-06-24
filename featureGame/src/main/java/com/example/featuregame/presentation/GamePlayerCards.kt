@@ -84,14 +84,15 @@ fun GamePlayerCard(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-                        Row (
+                        Row(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.fillMaxHeight()
-                        ){
+                        ) {
                             Icon(
                                 painterResource(com.example.comon.R.drawable.ammo),
-                                contentDescription = "Ammo Icon"
+                                contentDescription = "Ammo Icon",
+                                modifier = Modifier.size(20.dp)
                             )
                             Text(
                                 text = taggerGame.patrons.toString(),
@@ -116,7 +117,8 @@ fun GamePlayerCard(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(0.5f).padding(end = 20.dp),
+                    .weight(0.5f)
+                    .padding(end = 20.dp),
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Center
             ) {
