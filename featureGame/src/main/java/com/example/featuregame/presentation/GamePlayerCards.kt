@@ -6,13 +6,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -86,17 +90,39 @@ fun GamePlayerCard(
 
                         Row(
                             horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxHeight()
+                            verticalAlignment = Alignment.Bottom,
+                            modifier =  Modifier.fillMaxWidth().weight(1f)
                         ) {
                             Icon(
                                 painterResource(com.example.comon.R.drawable.ammo),
                                 contentDescription = "Ammo Icon",
                                 modifier = Modifier.size(20.dp)
                             )
+                            Spacer(
+                                modifier = Modifier.width(5.dp)
+                            )
                             Text(
                                 text = taggerGame.patrons.toString(),
-                                fontSize = 16.sp
+                                fontSize = 18.sp
+                            )
+
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth().weight(1f)
+                        ) {
+                            Icon(
+                                imageVector = (Icons.Filled.Favorite),
+                                contentDescription = "Health Icon",
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(
+                                modifier = Modifier.width(10.dp)
+                            )
+                            Text(
+                                text = taggerGame.health.toString(),
+                                fontSize = 18.sp
                             )
 
                         }
