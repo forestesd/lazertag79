@@ -68,6 +68,7 @@ data class TaggerInfoGameRes(
     val patronsForGame: Int,
     val health: Int,
     val shotByTaggerId: Int,
+    val killedByTaggerId: Int?
 ): TaggerData
 
 @Serializable

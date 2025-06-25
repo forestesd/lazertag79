@@ -122,6 +122,7 @@ class WebSocketServer @Inject constructor(
         if (ip != null) {
             connectionsByIp.remove(ip)
             Log.w("WS_SERVER", "Connection closed for IP: $ip")
+
         }
         Log.w("WS_SERVER", "Closed: $reason")
     }

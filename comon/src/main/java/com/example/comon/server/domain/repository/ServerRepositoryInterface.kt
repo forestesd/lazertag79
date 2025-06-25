@@ -18,4 +18,6 @@ interface ServerRepositoryInterface {
     suspend fun changeTaggerInfo(taggers: List<TaggerInfo>)
 
     suspend fun taggerInfoGameResMapper(taggerGameRes: TaggerInfoGameRes): Result<TaggerInfoGame>
+
+    suspend fun taggerConnectionClose(taggerInfo: TaggerInfo)
 }

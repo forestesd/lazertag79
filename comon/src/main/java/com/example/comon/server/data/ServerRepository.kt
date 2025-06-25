@@ -37,6 +37,12 @@ class ServerRepository @Inject constructor(
         }
     }
 
+    override suspend fun taggerConnectionClose(taggerInfo: TaggerInfo) {
+        _taggerData.update { list ->
+            list.filter { it != taggerInfo }
+        }
+    }
+
     override suspend fun taggerInfoGameResMapper(taggerGameRes: TaggerInfoGameRes): Result<TaggerInfoGame> {
         return try {
             val taggerInfo = _taggerData.value.find { it.taggerId == taggerGameRes.taggerId }

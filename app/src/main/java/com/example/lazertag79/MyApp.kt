@@ -20,14 +20,16 @@ class MyApp : Application(){
     lateinit var connectTaggerUseCase: ConnectTaggerUseCase
     @Inject
     lateinit var webSocketServer: WebSocketServer
+    @Inject
+    lateinit var nsdHelper: NSDHelper
 
     override fun onCreate() {
         super.onCreate()
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver(webSocketServer))
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver(webSocketServer, nsdHelper))
 
         startServer()
-
+        nsdHelper.registerService()
         copyRawConfigToFileIfNeeded(this)
     }
 
