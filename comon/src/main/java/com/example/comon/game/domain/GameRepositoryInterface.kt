@@ -18,4 +18,6 @@ interface GameRepositoryInterface {
 
     suspend fun gameStop()
 
+    suspend fun gameLogsUpdate(taggerName: String, shotByTaggerName: String, isKilled: Boolean)
+
 }

@@ -6,7 +6,8 @@ data class Game(
     val gameTime: Duration,
     val timeBeforeStart: Duration,
     val isGameStart: Boolean,
-    val friendlyFireMode: Boolean
+    val friendlyFireMode: Boolean,
+    val gameLogs: String
 )
 
 data class GameConfig(

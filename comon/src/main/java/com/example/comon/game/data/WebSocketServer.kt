@@ -1,12 +1,15 @@
 package com.example.comon.game.data
 
 import android.util.Log
+import com.example.comon.game.domain.use_cases.GameLogsUpdateUseCase
 import com.example.comon.models.TaggerData
+import com.example.comon.models.TaggerInfo
 import com.example.comon.models.TaggerInfoGame
 import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.models.TaggerRes
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
 import com.example.comon.server.domain.useCases.TaggerInfoGameResMapperUseCase
+import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +31,12 @@ import javax.inject.Provider
 class WebSocketServer @Inject constructor(
     port: Int,
     private val connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
-    private val taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>
-) : WebSocketServer(InetSocketAddress(port)) {
+    private val taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>,
+    taggerInfoUseCase: TaggersInfoUseCAse,
+    private val gameLogsUpdateUseCase: Provider<GameLogsUpdateUseCase>
+    ) : WebSocketServer(InetSocketAddress(port)) {
+
+    private val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()
 
     private val _incomingMessages = MutableStateFlow<List<TaggerInfoGame>>(emptyList())
     val incomingMessages: StateFlow<List<TaggerInfoGame>> = _incomingMessages
@@ -82,8 +89,17 @@ class WebSocketServer @Inject constructor(
                         taggerInfoGameResMapperUseCase.get().invoke(response).fold(
                             onSuccess = { mappedTagger ->
                                 _incomingMessages.update { currentList ->
+                                    if (mappedTagger.shotByTaggerId != null){
+                                        gameLogsUpdateUseCase.get().invoke(
+                                            taggerName = taggersInfo.value.find { it.taggerId == mappedTagger.taggerId }?.playerName ?:"Kotlin",
+                                            shotByTaggerName = taggersInfo.value.find { it.taggerId == mappedTagger.shotByTaggerId }?.playerName ?:"Kotlin",
+                                            isKilled = mappedTagger.health == 0,
+                                        )
+                                    }
                                     if (existing != null) {
                                         currentList.filter { it.taggerId != response.taggerId } + mappedTagger
+
+
                                     } else {
                                         currentList + mappedTagger
                                     }

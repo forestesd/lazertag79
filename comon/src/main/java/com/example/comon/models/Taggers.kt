@@ -67,14 +67,8 @@ data class TaggerInfoGameRes(
     val teamId: Int,
     val patronsForGame: Int,
     val health: Int,
-    val shotByTaggerId: Int,
-    val killedByTaggerId: Int?
+    val shotByTaggerId: Int?,
 ): TaggerData
-
-@Serializable
-data class TaggerResponse(
-    val data: TaggerData
-)
 
 
 @Serializable
@@ -86,6 +80,6 @@ data class TaggerInfoGame(
     val taggerName: String,
     val patrons: Int,
     val health: Int,
-    val shotByTaggerId: Int,
+    val shotByTaggerId: Int?,
     val healthBarFill: Float
 )

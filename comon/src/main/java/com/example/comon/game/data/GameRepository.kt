@@ -16,6 +16,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import java.io.File
 import java.time.Duration
 import javax.inject.Inject
@@ -34,7 +35,8 @@ class GameRepository @Inject constructor(
             gameTime = time.gameTime,
             timeBeforeStart = time.timeBeforeStart,
             isGameStart = false,
-            friendlyFireMode = false
+            friendlyFireMode = false,
+            gameLogs = ""
         )
     }
 
@@ -66,6 +68,22 @@ class GameRepository @Inject constructor(
 
     }
 
+    override suspend fun gameLogsUpdate(
+        taggerName: String,
+        shotByTaggerName: String,
+        isKilled: Boolean
+    ) {
+        if (isKilled) {
+            _game.update { item ->
+                item.copy(gameLogs = item.gameLogs + "$shotByTaggerName убил $taggerName")
+            }
+        } else {
+            _game.update { item ->
+                item.copy(gameLogs = item.gameLogs + "$shotByTaggerName ранил $taggerName")
+            }
+        }
+    }
+
     override suspend fun changeTimeBeforeStart(duration: Duration) {
         _game.value = _game.value.copy(timeBeforeStart = duration)
 
@@ -81,7 +99,7 @@ class GameRepository @Inject constructor(
 
     override suspend fun gameStart() {
         _game.value = _game.value.copy(isGameStart = true)
-        webSocketServer.startGameBroadcast("start",game.value.timeBeforeStart.seconds )
+        webSocketServer.startGameBroadcast("start", game.value.timeBeforeStart.seconds)
     }
 
     override suspend fun gameStop() {

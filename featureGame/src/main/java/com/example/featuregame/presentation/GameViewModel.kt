@@ -6,6 +6,7 @@ import com.example.comon.Teams.domain.domain.models.TeamModel
 import com.example.comon.Teams.domain.domain.useCases.TeamsUseCase
 import com.example.comon.game.data.WebSocketServer
 import com.example.comon.game.domain.models.Game
+import com.example.comon.game.domain.use_cases.GameLogsUpdateUseCase
 import com.example.comon.game.domain.use_cases.GameStartUseCase
 import com.example.comon.game.domain.use_cases.GameStopUseCase
 import com.example.comon.game.domain.use_cases.GameUseCase
@@ -28,12 +29,12 @@ class GameViewModel @Inject constructor(
     gameUseCase: GameUseCase,
     private val gameStartUseCase: GameStartUseCase,
     private val gameStopUseCase: GameStopUseCase,
-    private val webSocketServer: WebSocketServer
+    webSocketServer: WebSocketServer,
 ) : ViewModel() {
 
     val teams: StateFlow<List<TeamModel>> = teamsUseCase()
 
-    val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()
+    private val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()
 
     val taggerGame: StateFlow<List<TaggerInfoGame>> = webSocketServer.incomingMessages
 
