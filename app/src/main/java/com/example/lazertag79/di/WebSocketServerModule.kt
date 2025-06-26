@@ -21,7 +21,7 @@ object WebSocketServerModule {
     fun provideWebSocketServer(
         connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
         taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>,
-        taggerInfoUseCase: TaggersInfoUseCAse,
+        taggerInfoUseCase: Provider<TaggersInfoUseCAse>,
         gameLogsUpdateUseCase: Provider<GameLogsUpdateUseCase>
         ): WebSocketServer {
         return WebSocketServer(

@@ -32,11 +32,13 @@ class WebSocketServer @Inject constructor(
     port: Int,
     private val connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
     private val taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>,
-    taggerInfoUseCase: TaggersInfoUseCAse,
+    taggerInfoUseCase: Provider<TaggersInfoUseCAse>,
     private val gameLogsUpdateUseCase: Provider<GameLogsUpdateUseCase>
-    ) : WebSocketServer(InetSocketAddress(port)) {
+) : WebSocketServer(InetSocketAddress(port)) {
 
-    private val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()
+    private val taggersInfo: StateFlow<List<TaggerInfo>> by lazy {
+        taggerInfoUseCase.get().invoke()
+    }
 
     private val _incomingMessages = MutableStateFlow<List<TaggerInfoGame>>(emptyList())
     val incomingMessages: StateFlow<List<TaggerInfoGame>> = _incomingMessages
@@ -89,10 +91,12 @@ class WebSocketServer @Inject constructor(
                         taggerInfoGameResMapperUseCase.get().invoke(response).fold(
                             onSuccess = { mappedTagger ->
                                 _incomingMessages.update { currentList ->
-                                    if (mappedTagger.shotByTaggerId != null){
+                                    if (mappedTagger.shotByTaggerId != 0) {
                                         gameLogsUpdateUseCase.get().invoke(
-                                            taggerName = taggersInfo.value.find { it.taggerId == mappedTagger.taggerId }?.playerName ?:"Kotlin",
-                                            shotByTaggerName = taggersInfo.value.find { it.taggerId == mappedTagger.shotByTaggerId }?.playerName ?:"Kotlin",
+                                            taggerName = taggersInfo.value.find { it.taggerId == mappedTagger.taggerId }?.playerName
+                                                ?: "Kotlin",
+                                            shotByTaggerName = taggersInfo.value.find { it.taggerId == mappedTagger.shotByTaggerId }?.playerName
+                                                ?: "Kotlin",
                                             isKilled = mappedTagger.health == 0,
                                         )
                                     }

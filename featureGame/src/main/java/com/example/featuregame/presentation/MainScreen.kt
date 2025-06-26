@@ -40,5 +40,9 @@ fun MainScreen(
         ) {
             ScoreBoardGame(gameViewModel = gameViewModel)
         }
+        GameLogs(
+            gameViewModel = gameViewModel,
+            modifier = Modifier.weight(0.07f)
+        )
     }
 }

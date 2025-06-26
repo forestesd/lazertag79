@@ -41,14 +41,14 @@ fun ScoreBoardGame(
                 .fillMaxWidth()
                 .weight(0.15f)
                 .background(Color(0x40444444)),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = teams[0].teamName,
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f)
-                    .padding(16.dp),
+                    .padding(start = 16.dp, top = 10.dp),
                 fontSize = 28.sp
             )
             Divider(
@@ -60,7 +60,7 @@ fun ScoreBoardGame(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f)
-                    .padding(16.dp),
+                    .padding(end = 16.dp, top = 10.dp),
                 textAlign = TextAlign.End,
                 fontSize = 28.sp
             )
