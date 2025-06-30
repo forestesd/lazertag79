@@ -43,7 +43,10 @@ class ServerRepository @Inject constructor(
         }
     }
 
-    override suspend fun taggerInfoGameResMapper(taggerGameRes: TaggerInfoGameRes): Result<TaggerInfoGame> {
+    override suspend fun taggerInfoGameResMapper(
+        taggerGameRes: TaggerInfoGameRes,
+        taggerInfoGame: TaggerInfoGame?
+    ): Result<TaggerInfoGame> {
         return try {
             val taggerInfo = _taggerData.value.find { it.taggerId == taggerGameRes.taggerId }
                 ?: throw IllegalArgumentException("Tagger with ID ${taggerGameRes.taggerId} not found")
@@ -51,7 +54,8 @@ class ServerRepository @Inject constructor(
             Result.success(
                 taggerInfoGameResToTaggerInfoGame(
                     taggerInfo = taggerInfo,
-                    taggerGameRes = taggerGameRes
+                    taggerGameRes = taggerGameRes,
+                    taggerInfoGame = taggerInfoGame,
                 )
             )
         } catch (e: Exception) {

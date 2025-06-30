@@ -1,5 +1,6 @@
 package com.example.featuregame.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +39,9 @@ import com.example.comon.models.TaggerInfoGame
 fun GamePlayerCard(
     taggerGame: TaggerInfoGame
 ) {
-
+    LaunchedEffect (taggerGame) {
+        Log.d("GAME", taggerGame.healthBarFill.toString())
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -149,17 +153,17 @@ fun GamePlayerCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Убийств: 10",
+                    text = "Убийств: ${taggerGame.kills}",
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Смертей: 10",
+                    text = "Смертей: ${taggerGame.deaths}",
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "K/D: 0",
+                    text = "K/D: ${taggerGame.kills.toFloat() / taggerGame.deaths}",
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center
                 )

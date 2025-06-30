@@ -54,9 +54,9 @@ data class TaggerRes(
     val status: Int,
     val fireMode: Int,
     val volume: Int
-):TaggerData
+) : TaggerData
 
-enum class BatteryColor{
+enum class BatteryColor {
     Green, Yellow, Red
 }
 
@@ -68,7 +68,7 @@ data class TaggerInfoGameRes(
     val patronsForGame: Int,
     val health: Int,
     val shotByTaggerId: Int?,
-): TaggerData
+) : TaggerData
 
 
 @Serializable
@@ -81,5 +81,7 @@ data class TaggerInfoGame(
     val patrons: Int,
     val health: Int,
     val shotByTaggerId: Int?,
-    val healthBarFill: Float
+    val healthBarFill: Float,
+    var kills: Int = 0,
+    var deaths: Int = 0
 )

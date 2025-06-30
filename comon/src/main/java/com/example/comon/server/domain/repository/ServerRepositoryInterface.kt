@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface ServerRepositoryInterface {
     val taggerData: StateFlow<List<TaggerInfo>>
 
-   suspend fun connectTagger(taggerRes: TaggerRes)
+    suspend fun connectTagger(taggerRes: TaggerRes)
 
     suspend fun changeTeam(tagger: TaggerInfo, team: Int)
 
@@ -17,7 +17,10 @@ interface ServerRepositoryInterface {
 
     suspend fun changeTaggerInfo(taggers: List<TaggerInfo>)
 
-    suspend fun taggerInfoGameResMapper(taggerGameRes: TaggerInfoGameRes): Result<TaggerInfoGame>
+    suspend fun taggerInfoGameResMapper(
+        taggerGameRes: TaggerInfoGameRes,
+        taggerInfoGame: TaggerInfoGame?
+    ): Result<TaggerInfoGame>
 
     suspend fun taggerConnectionClose(taggerInfo: TaggerInfo)
 }

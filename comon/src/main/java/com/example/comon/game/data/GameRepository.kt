@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 class GameRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val serviceFactory: UpdateTaggerServiceFactory,
     private val webSocketServer: WebSocketServer
 ) : GameRepositoryInterface {
 
@@ -75,11 +74,11 @@ class GameRepository @Inject constructor(
     ) {
         if (isKilled) {
             _game.update { item ->
-                item.copy(gameLogs = item.gameLogs + "$shotByTaggerName убил $taggerName")
+                item.copy(gameLogs ="$shotByTaggerName убил $taggerName")
             }
         } else {
             _game.update { item ->
-                item.copy(gameLogs = item.gameLogs + "$shotByTaggerName ранил $taggerName")
+                item.copy(gameLogs = "$shotByTaggerName ранил $taggerName")
             }
         }
     }

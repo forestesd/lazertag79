@@ -6,7 +6,8 @@ import com.example.comon.models.TaggerInfoGameRes
 
 fun taggerInfoGameResToTaggerInfoGame(
     taggerInfo: TaggerInfo,
-    taggerGameRes: TaggerInfoGameRes
+    taggerGameRes: TaggerInfoGameRes,
+    taggerInfoGame: TaggerInfoGame?
 ) = TaggerInfoGame(
     taggerId = taggerGameRes.taggerId,
     teamId = taggerGameRes.teamId,
@@ -14,6 +15,8 @@ fun taggerInfoGameResToTaggerInfoGame(
     patrons = taggerGameRes.patronsForGame,
     health = taggerGameRes.health,
     shotByTaggerId = taggerGameRes.shotByTaggerId,
-    healthBarFill = (taggerGameRes.health / taggerInfo.maxHealth).toFloat(),
+    healthBarFill = taggerGameRes.health.toFloat() / taggerInfo.maxHealth.toFloat(),
+    kills = taggerInfoGame?.kills ?:0,
+    deaths = taggerInfoGame?.deaths ?: 0
 
 )

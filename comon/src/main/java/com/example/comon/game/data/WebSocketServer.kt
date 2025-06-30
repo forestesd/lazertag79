@@ -87,11 +87,14 @@ class WebSocketServer @Inject constructor(
                     coroutineScope.launch {
                         val existing =
                             _incomingMessages.value.find { it.taggerId == response.taggerId }
-
-                        taggerInfoGameResMapperUseCase.get().invoke(response).fold(
+                        Log.d("WS_SERVER", "Received: ${response.health}")
+                        taggerInfoGameResMapperUseCase.get().invoke(
+                            response,
+                            _incomingMessages.value.find { it.taggerId == response.taggerId }).fold(
                             onSuccess = { mappedTagger ->
                                 _incomingMessages.update { currentList ->
                                     if (mappedTagger.shotByTaggerId != 0) {
+
                                         gameLogsUpdateUseCase.get().invoke(
                                             taggerName = taggersInfo.value.find { it.taggerId == mappedTagger.taggerId }?.playerName
                                                 ?: "Kotlin",
@@ -99,6 +102,36 @@ class WebSocketServer @Inject constructor(
                                                 ?: "Kotlin",
                                             isKilled = mappedTagger.health == 0,
                                         )
+                                        if (mappedTagger.health == 0) {
+                                            val updatedKillsList = currentList.map { tagger ->
+                                                if (tagger.taggerId == mappedTagger.shotByTaggerId) {
+                                                    Log.d("KILLS", "Killed ${tagger.taggerId}")
+                                                    tagger.copy(kills = tagger.kills + 1)
+                                                } else tagger
+                                            }
+
+                                            val updatedFinalList = updatedKillsList.map { tagger ->
+                                                if (tagger.taggerId == mappedTagger.taggerId) {
+                                                    tagger.copy(
+                                                        deaths = tagger.deaths + 1,
+                                                        patrons = mappedTagger.patrons,
+                                                        shotByTaggerId = mappedTagger.shotByTaggerId,
+                                                        healthBarFill = mappedTagger.healthBarFill,
+                                                        health = 0
+                                                    )
+                                                } else tagger
+                                            }
+
+                                            Log.d(
+                                                "KILLS", "Killed ${
+                                                    updatedFinalList.find { it.taggerId == mappedTagger.shotByTaggerId }?.kills
+                                                }"
+                                            )
+
+                                           return@update updatedFinalList
+                                        }
+
+
                                     }
                                     if (existing != null) {
                                         currentList.filter { it.taggerId != response.taggerId } + mappedTagger
