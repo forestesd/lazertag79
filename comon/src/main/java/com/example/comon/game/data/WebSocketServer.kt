@@ -96,10 +96,8 @@ class WebSocketServer @Inject constructor(
                                     if (mappedTagger.shotByTaggerId != 0) {
 
                                         gameLogsUpdateUseCase.get().invoke(
-                                            taggerName = taggersInfo.value.find { it.taggerId == mappedTagger.taggerId }?.playerName
-                                                ?: "Kotlin",
-                                            shotByTaggerName = taggersInfo.value.find { it.taggerId == mappedTagger.shotByTaggerId }?.playerName
-                                                ?: "Kotlin",
+                                            taggerName = taggersInfo.value.find { it.taggerId == mappedTagger.taggerId }?.taggerId.toString(),
+                                            shotByTaggerName = taggersInfo.value.find { it.taggerId == mappedTagger.shotByTaggerId }?.taggerId.toString(),
                                             isKilled = mappedTagger.health == 0,
                                         )
                                         if (mappedTagger.health == 0) {
@@ -128,7 +126,7 @@ class WebSocketServer @Inject constructor(
                                                 }"
                                             )
 
-                                           return@update updatedFinalList
+                                            return@update updatedFinalList
                                         }
 
 

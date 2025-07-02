@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -81,7 +82,7 @@ fun GamePlayerCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = taggerGame.taggerName,
+                        text = "ID: ${taggerGame.taggerId}",
                         fontSize = 16.sp
                     )
                     Column(

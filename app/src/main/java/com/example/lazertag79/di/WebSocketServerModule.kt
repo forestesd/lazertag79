@@ -25,7 +25,8 @@ object WebSocketServerModule {
         gameLogsUpdateUseCase: Provider<GameLogsUpdateUseCase>
         ): WebSocketServer {
         return WebSocketServer(
-            port = 8080, connectTaggerUseCaseProvider = connectTaggerUseCaseProvider,
+            port = 8080,
+            connectTaggerUseCaseProvider = connectTaggerUseCaseProvider,
             taggerInfoGameResMapperUseCase = taggerInfoGameResMapperUseCase,
             taggerInfoUseCase = taggerInfoUseCase,
             gameLogsUpdateUseCase = gameLogsUpdateUseCase,

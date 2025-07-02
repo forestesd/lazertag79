@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/mainScreenUI" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/serverV3" />
+            <option value="$PROJECT_DIR$/setings" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

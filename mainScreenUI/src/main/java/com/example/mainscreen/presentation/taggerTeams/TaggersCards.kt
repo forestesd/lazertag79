@@ -125,7 +125,7 @@ fun TeamPlayerCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = tagger.playerName,
+                    text = "ID: ${tagger.taggerId}",
                     fontSize = 16.sp
                 )
                 Column(
