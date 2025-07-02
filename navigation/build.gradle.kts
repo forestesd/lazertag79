@@ -37,6 +37,7 @@ dependencies {
 
     implementation(project(":mainScreenUI"))
     implementation(project(":featureGame"))
+    implementation(project(":setings"))
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)

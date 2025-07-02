@@ -17,6 +17,7 @@ import com.example.mainscreen.presentation.MainScreenUI
 import com.example.mainscreen.presentation.ServerViewModel
 import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.example.navigation.UI.NavigationUI
+import com.example.setings.SettingsMainScreen
 
 @Composable
 fun AppNavigation(
@@ -46,7 +47,7 @@ fun AppNavigation(
         },
         onNewsFeedClick = {
             selectedItem = 3
-            navController.navigate("")
+            navController.navigate("settings")
         }
     ) { paddingValues ->
 
@@ -69,6 +70,9 @@ fun AppNavigation(
             }
             composable("game") {
                 MainScreen(gameViewModel)
+            }
+            composable("settings") {
+                SettingsMainScreen()
             }
         }
     }
