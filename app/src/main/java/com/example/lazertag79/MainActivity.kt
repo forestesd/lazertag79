@@ -12,6 +12,7 @@ import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
 import com.example.mainscreen.presentation.ServerViewModel
 import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.example.navigation.navGraph.AppNavigation
+import com.example.setings.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,11 +32,14 @@ class MainActivity : ComponentActivity() {
                 val connectedTaggerViewModel: ConnectedTaggerViewModel = hiltViewModel()
                 val actionTopBarViewModel: ActionTopBarViewModel = hiltViewModel()
                 val gameViewModel: GameViewModel = hiltViewModel()
+                val settingsViewModel: SettingsViewModel = hiltViewModel()
+
                 AppNavigation(
                     serverViewModel = serverViewModel,
                     connectedTaggerViewModel = connectedTaggerViewModel,
                     actionTopBarViewModel = actionTopBarViewModel,
-                    gameViewModel = gameViewModel
+                    gameViewModel = gameViewModel,
+                    settingsViewModel = settingsViewModel
                 )
             }
         }

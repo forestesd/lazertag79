@@ -1,4 +1,6 @@
 plugins {
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -34,16 +36,29 @@ android {
 }
 
 dependencies {
+    implementation(project(":comon"))
+
+    implementation(libs.java.websocket)
+
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)
+    implementation (libs.androidx.material3.v110)
+    implementation(libs.androidx.core.ktx)
 
-    implementation(libs.material3)
-    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.storage)
 
-    implementation(libs.androidx.core.ktx.v1120)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

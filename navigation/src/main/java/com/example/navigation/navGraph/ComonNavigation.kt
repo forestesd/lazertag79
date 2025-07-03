@@ -18,13 +18,15 @@ import com.example.mainscreen.presentation.ServerViewModel
 import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.example.navigation.UI.NavigationUI
 import com.example.setings.SettingsMainScreen
+import com.example.setings.SettingsViewModel
 
 @Composable
 fun AppNavigation(
     serverViewModel: ServerViewModel,
     connectedTaggerViewModel: ConnectedTaggerViewModel,
     actionTopBarViewModel: ActionTopBarViewModel,
-    gameViewModel: GameViewModel
+    gameViewModel: GameViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
 
 
@@ -72,7 +74,7 @@ fun AppNavigation(
                 MainScreen(gameViewModel)
             }
             composable("settings") {
-                SettingsMainScreen()
+                SettingsMainScreen(settingsViewModel)
             }
         }
     }

@@ -57,6 +57,7 @@ dependencies {
     implementation(project(":featureGame"))
     implementation(project(":serverV3"))
     implementation(project(":comon"))
+    implementation(project(":setings"))
 
     implementation(libs.java.websocket)
 

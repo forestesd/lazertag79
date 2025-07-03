@@ -11,8 +11,12 @@ import com.example.comon.server.data.mappers.taggerInfoGameResToTaggerInfoGame
 import com.example.comon.server.data.mappers.taggerInfoToTaggerRes
 import com.example.comon.server.data.mappers.taggerResToTaggerInfo
 import com.example.comon.server.domain.repository.ServerRepositoryInterface
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import kotlin.math.exp
@@ -98,4 +102,26 @@ class ServerRepository @Inject constructor(
             Log.e("Change team", e.toString())
         }
     }
+
+    override suspend fun taggerConfigUpdate(tagger: List<TaggerInfo>) {
+        _taggerData.update {
+            tagger
+        }
+        Log.d("Update config", "Update")
+
+        coroutineScope {
+            _taggerData.value.map { tagger ->
+                async {
+                    try {
+                        webSocketServer.sendToIp(tagger.ip, taggerInfoToTaggerRes(tagger))
+                        Log.d("Update config", "For ${tagger.ip}")
+                    } catch (e: Exception) {
+                        Log.e("Update config", "For ${tagger.ip}: $e")
+                    }
+                }
+            }.awaitAll()
+        }
+
+    }
+
 }
