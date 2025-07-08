@@ -39,7 +39,7 @@ dependencies {
     implementation(project(":comon"))
 
     implementation(libs.java.websocket)
-
+    implementation(libs.androidx.material.icons.core)
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation(libs.logging.interceptor)

@@ -7,10 +7,7 @@ import com.example.comon.server.domain.useCases.TaggerConfigUpdateUseCase
 import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +35,16 @@ class SettingsViewModel @Inject constructor(
 
     private fun update(update: (TaggerInfo) -> TaggerInfo) {
         _localTagger.update { it?.let(update) }
+    }
+
+    fun reset(){
+        viewModelScope.launch {
+            taggersInfo.collect { list ->
+                _localTagger.value = list.firstOrNull()
+            }
+        }
+        tagger.value?.let { setIsAutoReload(it.isAutoReload) }
+        tagger.value?.let { setIsFriendlyFire(it.isFriendlyFire) }
     }
 
     fun setDamageIndex(value: Int) = update { it.copy(damageIndex = value) }

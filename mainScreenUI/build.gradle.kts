@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation (libs.androidx.material3.v110)
+    implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.androidx.runtime.android)

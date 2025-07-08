@@ -12,12 +12,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SplitButtonDefaults
+import androidx.compose.material3.SplitButtonLayout
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
@@ -38,6 +43,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsMainScreen(
     settingsViewModel: SettingsViewModel
@@ -156,17 +162,27 @@ fun SettingsMainScreen(
             }
 
         }
-        FloatingActionButton(
-            onClick = { settingsViewModel.sendConfig() },
+        SplitButtonLayout(
+            leadingButton = {
+                SplitButtonDefaults.LeadingButton(onClick = { settingsViewModel.sendConfig() }) {
+                    Icon(
+                        imageVector = Icons.Default.Done,
+                        contentDescription = "Done Button"
+                    )
+                }
+            },
+            trailingButton = {
+                SplitButtonDefaults.TrailingButton(onClick = { settingsViewModel.reset() }) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Done Button"
+                    )
+                }
+            },
             modifier = Modifier
                 .padding(24.dp)
                 .align(Alignment.BottomEnd),
-        ) {
-            Icon(
-                imageVector = Icons.Default.Done,
-                contentDescription = "Done Button"
-            )
-        }
+        )
     }
 }
 
