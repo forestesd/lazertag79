@@ -43,7 +43,6 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation(libs.logging.interceptor)
-
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation (libs.androidx.material3.v110)

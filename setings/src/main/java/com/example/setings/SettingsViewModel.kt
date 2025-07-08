@@ -1,5 +1,6 @@
 package com.example.setings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comon.models.TaggerInfo
@@ -23,6 +24,9 @@ class SettingsViewModel @Inject constructor(
     private val _localTagger = MutableStateFlow<TaggerInfo?>(null)
     val tagger: StateFlow<TaggerInfo?> = _localTagger
 
+    private val damageIndex: List<Int> =
+        listOf(1, 2, 4, 5, 7, 10, 15, 17, 20, 25, 30, 35, 40, 50, 75, 100)
+
     init {
         viewModelScope.launch {
             taggersInfo.collect { list ->
@@ -37,7 +41,12 @@ class SettingsViewModel @Inject constructor(
         _localTagger.update { it?.let(update) }
     }
 
-    fun reset(){
+    fun getDamageByIndex(index: Int): Int {
+        Log.d("DAMAGE", "index: $index value: ${damageIndex[index]}")
+        return damageIndex[index]
+    }
+
+    fun reset() {
         viewModelScope.launch {
             taggersInfo.collect { list ->
                 _localTagger.value = list.firstOrNull()
