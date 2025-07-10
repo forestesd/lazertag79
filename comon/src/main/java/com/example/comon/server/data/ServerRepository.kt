@@ -104,8 +104,25 @@ class ServerRepository @Inject constructor(
     }
 
     override suspend fun taggerConfigUpdate(tagger: List<TaggerInfo>) {
-        _taggerData.update {
-            tagger
+        _taggerData.update { currentList ->
+            val newConfig = tagger.first()
+            currentList.map {
+                it.copy(
+                    damageIndex = newConfig.damageIndex,
+                    reloadTime = newConfig.reloadTime,
+                    shockTime = newConfig.shockTime,
+                    invulnerabilityTime = newConfig.invulnerabilityTime,
+                    fireSpeed = newConfig.fireSpeed,
+                    firePower = newConfig.firePower,
+                    maxPatrons = newConfig.maxPatrons,
+                    maxPatronsForGame = newConfig.maxPatronsForGame,
+                    maxHealth = newConfig.maxHealth,
+                    isAutoReload = newConfig.isAutoReload,
+                    isFriendlyFire = newConfig.isFriendlyFire,
+                    fireMode = newConfig.fireMode,
+                    volume = newConfig.volume
+                )
+            }
         }
         Log.d("Update config", "Update")
 

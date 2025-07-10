@@ -75,7 +75,7 @@ class SettingsViewModel @Inject constructor(
     fun sendConfig() {
         viewModelScope.launch {
             _localTagger.value?.let { tagger ->
-                taggerConfigUpdateUseCase.invoke(listOf(tagger))
+                taggerConfigUpdateUseCase.invoke(listOf(tagger, taggersInfo.value[1]))
             }
         }
     }
