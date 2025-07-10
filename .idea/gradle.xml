@@ -12,9 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/comon" />
-            <option value="$PROJECT_DIR$/mainScreen" />
+            <option value="$PROJECT_DIR$/featureGame" />
+            <option value="$PROJECT_DIR$/mainScreenUI" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/serverV3" />
+            <option value="$PROJECT_DIR$/setings" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

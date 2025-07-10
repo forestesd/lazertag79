@@ -9,8 +9,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
 
+        minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -34,12 +34,16 @@ android {
 }
 
 dependencies {
-    implementation(project(":mainScreen"))
+
+    implementation(project(":mainScreenUI"))
+    implementation(project(":featureGame"))
+    implementation(project(":setings"))
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)
 
     implementation(libs.material3)
+    implementation(libs.androidx.material.icons.core)
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.androidx.core.ktx.v1120)

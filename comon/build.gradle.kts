@@ -11,8 +11,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
 
+        minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -36,9 +36,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.java.websocket)
+
 
     implementation(libs.ktor.serialization.kotlinx.json)
 
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

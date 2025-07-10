@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,8 @@ fun BottomNavigationBar(
     selectedItem: Int,
     onMainClick: () -> Unit,
     onFinanceClick: () -> Unit,
-    onNewsFeedClicked: () -> Unit
+    onNewsFeedClicked: () -> Unit,
+    onGameClick: () -> Unit
 ) {
     NavigationBar(
         modifier = Modifier.navigationBarsPadding(),
@@ -37,6 +39,17 @@ fun BottomNavigationBar(
         NavigationBarItem(
             selected = selectedItem == 1,
             onClick = {
+                onGameClick()
+            },
+            label = { Text("Игра") },
+            icon = {
+                Icon(Icons.Default.Star, contentDescription = "")
+            }
+        )
+
+        NavigationBarItem(
+            selected = selectedItem == 2,
+            onClick = {
                 onFinanceClick()
             },
             label = { Text("Финансы") },
@@ -46,14 +59,14 @@ fun BottomNavigationBar(
         )
 
         NavigationBarItem(
-            selected = selectedItem == 2,
+            selected = selectedItem == 3,
             onClick = {
                 onNewsFeedClicked()
             },
-            label = { Text("Лента") },
+            label = { Text("Настройки") },
             icon = {
                 Icon(
-                    Icons.Default.Star,
+                    Icons.Default.Settings,
                     contentDescription = "NewsFeed"
                 )
             }

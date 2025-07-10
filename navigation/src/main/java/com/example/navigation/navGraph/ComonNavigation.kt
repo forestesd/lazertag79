@@ -10,13 +10,23 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mainscreen.MainScreenUI
-import com.example.mainscreen.ServerViewModel
+import com.example.featuregame.presentation.GameViewModel
+import com.example.featuregame.presentation.MainScreen
+import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
+import com.example.mainscreen.presentation.MainScreenUI
+import com.example.mainscreen.presentation.ServerViewModel
+import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
 import com.example.navigation.UI.NavigationUI
+import com.example.setings.SettingsMainScreen
+import com.example.setings.SettingsViewModel
 
 @Composable
 fun AppNavigation(
-    serverViewModel: ServerViewModel
+    serverViewModel: ServerViewModel,
+    connectedTaggerViewModel: ConnectedTaggerViewModel,
+    actionTopBarViewModel: ActionTopBarViewModel,
+    gameViewModel: GameViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
 
 
@@ -29,13 +39,17 @@ fun AppNavigation(
             selectedItem = 0
             navController.navigate("main")
         },
-        onFinanceClick = {
+        onGameClick = {
             selectedItem = 1
-            navController.navigate("finance")
+            navController.navigate("game")
+        },
+        onFinanceClick = {
+            selectedItem = 2
+            navController.navigate("")
         },
         onNewsFeedClick = {
-            selectedItem = 2
-            navController.navigate("notes")
+            selectedItem = 3
+            navController.navigate("settings")
         }
     ) { paddingValues ->
 
@@ -46,7 +60,21 @@ fun AppNavigation(
 
         ) {
             composable("main") {
-                MainScreenUI(serverViewModel)
+                MainScreenUI(
+                    serverViewModel = serverViewModel,
+                    connectedTaggerViewModel = connectedTaggerViewModel,
+                    actionTopBarViewModel = actionTopBarViewModel,
+                    onStart = {
+                        selectedItem = 1
+                        navController.navigate("game")
+                    }
+                )
+            }
+            composable("game") {
+                MainScreen(gameViewModel)
+            }
+            composable("settings") {
+                SettingsMainScreen(settingsViewModel)
             }
         }
     }
