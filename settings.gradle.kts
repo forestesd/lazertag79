@@ -24,7 +24,6 @@ include(":app")
 
 include(":mainScreenUI")
 include(":comon")
-include(":serverV3")
 include(":navigation")
 include(":featureGame")
 include(":setings")

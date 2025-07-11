@@ -1,7 +1,6 @@
 package com.example.comon.server.data
 
 import android.util.Log
-import com.example.comon.factory.UpdateTaggerServiceFactory
 import com.example.comon.game.data.WebSocketServer
 import com.example.comon.models.TaggerInfo
 import com.example.comon.models.TaggerInfoGame
@@ -16,10 +15,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-import kotlin.math.exp
 
 class ServerRepository @Inject constructor(
     private val webSocketServer: WebSocketServer

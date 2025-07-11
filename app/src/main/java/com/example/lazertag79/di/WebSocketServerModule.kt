@@ -4,7 +4,7 @@ import com.example.comon.game.data.WebSocketServer
 import com.example.comon.game.domain.use_cases.GameLogsUpdateUseCase
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
 import com.example.comon.server.domain.useCases.TaggerInfoGameResMapperUseCase
-import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
+import com.example.comon.server.domain.useCases.TaggersInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +21,7 @@ object WebSocketServerModule {
     fun provideWebSocketServer(
         connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
         taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>,
-        taggerInfoUseCase: Provider<TaggersInfoUseCAse>,
+        taggerInfoUseCase: Provider<TaggersInfoUseCase>,
         gameLogsUpdateUseCase: Provider<GameLogsUpdateUseCase>
         ): WebSocketServer {
         return WebSocketServer(

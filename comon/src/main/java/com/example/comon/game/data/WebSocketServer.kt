@@ -9,7 +9,7 @@ import com.example.comon.models.TaggerInfoGameRes
 import com.example.comon.models.TaggerRes
 import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
 import com.example.comon.server.domain.useCases.TaggerInfoGameResMapperUseCase
-import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
+import com.example.comon.server.domain.useCases.TaggersInfoUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ class WebSocketServer @Inject constructor(
     port: Int,
     private val connectTaggerUseCaseProvider: Provider<ConnectTaggerUseCase>,
     private val taggerInfoGameResMapperUseCase: Provider<TaggerInfoGameResMapperUseCase>,
-    taggerInfoUseCase: Provider<TaggersInfoUseCAse>,
+    taggerInfoUseCase: Provider<TaggersInfoUseCase>,
     private val gameLogsUpdateUseCase: Provider<GameLogsUpdateUseCase>
 ) : WebSocketServer(InetSocketAddress(port)) {
 
