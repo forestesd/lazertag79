@@ -31,7 +31,7 @@ fun TeamAssignmentScreen(
         ) {
 
             val animatedWeight by animateFloatAsState(
-                targetValue = if (drawState == DrawerValue.Open) 0.6f else 0.04f,
+                targetValue = if (drawState == DrawerValue.Open) 0.6f else 0.00001f,
                 animationSpec = tween(durationMillis = 200)
             )
             Box(
