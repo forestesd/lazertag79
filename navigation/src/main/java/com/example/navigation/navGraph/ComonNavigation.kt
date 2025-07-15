@@ -1,12 +1,27 @@
 package com.example.navigation.navGraph
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -45,7 +60,7 @@ fun AppNavigation(
         },
         onFinanceClick = {
             selectedItem = 2
-            navController.navigate("")
+            navController.navigate("statistics")
         },
         onNewsFeedClick = {
             selectedItem = 3
@@ -76,6 +91,43 @@ fun AppNavigation(
             composable("settings") {
                 SettingsMainScreen(settingsViewModel)
             }
+            composable("statistics") {
+                StatisticsMocApp()
+            }
         }
+    }
+}
+
+@Composable
+fun StatisticsMocApp(modifier: Modifier = Modifier) {
+    val infiniteTransition = rememberInfiniteTransition(label = "Infinite transition")
+    val animatedColor by infiniteTransition.animateColor(
+        initialValue = Color(0xFF60DDAD),
+        targetValue = Color(0xFF4285F4),
+        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+        label = "color"
+    )
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 8f,
+        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+        label = "scale"
+    )
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Coming soon",
+            fontSize = 32.sp,
+            color = animatedColor,
+            modifier = Modifier.graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                transformOrigin = TransformOrigin.Center
+            }
+        )
     }
 }

@@ -52,7 +52,7 @@ fun BottomNavigationBar(
             onClick = {
                 onFinanceClick()
             },
-            label = { Text("Финансы") },
+            label = { Text("Статистика") },
             icon = {
                 Icon(Icons.Default.Star, contentDescription = "")
             }
