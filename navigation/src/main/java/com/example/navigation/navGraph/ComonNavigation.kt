@@ -31,7 +31,7 @@ import com.example.mainscreen.presentation.taggerTeams.ConnectedTaggerViewModel
 import com.example.mainscreen.presentation.MainScreenUI
 import com.example.mainscreen.presentation.ServerViewModel
 import com.example.mainscreen.presentation.actionTopBar.ActionTopBarViewModel
-import com.example.navigation.UI.NavigationUI
+import com.example.navigation.ui.NavigationUI
 import com.example.setings.SettingsMainScreen
 import com.example.setings.SettingsViewModel
 
@@ -48,23 +48,16 @@ fun AppNavigation(
     val navController = rememberNavController()
     var selectedItem by remember { mutableIntStateOf(0) }
 
+
+
     NavigationUI(
-        selectedItem = selectedItem,
-        onMainClick = {
-            selectedItem = 0
-            navController.navigate("main")
-        },
-        onGameClick = {
-            selectedItem = 1
-            navController.navigate("game")
-        },
-        onFinanceClick = {
-            selectedItem = 2
-            navController.navigate("statistics")
-        },
-        onNewsFeedClick = {
-            selectedItem = 3
-            navController.navigate("settings")
+        onClick = { index ->
+            when (index) {
+                0 -> navController.navigate("main")
+                1 -> navController.navigate("game")
+                2 -> navController.navigate("statistics")
+                3 -> navController.navigate("settings")
+            }
         }
     ) { paddingValues ->
 
@@ -98,8 +91,9 @@ fun AppNavigation(
     }
 }
 
+
 @Composable
-fun StatisticsMocApp(modifier: Modifier = Modifier) {
+fun StatisticsMocApp() {
     val infiniteTransition = rememberInfiniteTransition(label = "Infinite transition")
     val animatedColor by infiniteTransition.animateColor(
         initialValue = Color(0xFF60DDAD),
