@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.comon.models.TaggerInfo
 import com.example.comon.server.domain.useCases.ChangeTaggerInfoUseCase
 import com.example.comon.server.domain.useCases.ChangeTeamUseCase
-import com.example.comon.server.domain.useCases.ConnectTaggerUseCase
-import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
+import com.example.comon.server.domain.useCases.TaggersInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServerViewModel @Inject constructor(
-    taggerInfoUseCase: TaggersInfoUseCAse,
+    taggerInfoUseCase: TaggersInfoUseCase,
     private val changeTeamUseCase: ChangeTeamUseCase,
     private val changeTaggerInfoUseCase: ChangeTaggerInfoUseCase
 ) : ViewModel() {

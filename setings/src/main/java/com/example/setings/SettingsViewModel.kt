@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comon.models.TaggerInfo
 import com.example.comon.server.domain.useCases.TaggerConfigUpdateUseCase
-import com.example.comon.server.domain.useCases.TaggersInfoUseCAse
+import com.example.comon.server.domain.useCases.TaggersInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val taggerConfigUpdateUseCase: TaggerConfigUpdateUseCase,
-    taggerInfoUseCase: TaggersInfoUseCAse,
+    taggerInfoUseCase: TaggersInfoUseCase,
 ) : ViewModel() {
 
     private val taggersInfo: StateFlow<List<TaggerInfo>> = taggerInfoUseCase()

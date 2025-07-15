@@ -55,7 +55,6 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":mainScreenUI"))
     implementation(project(":featureGame"))
-    implementation(project(":serverV3"))
     implementation(project(":comon"))
     implementation(project(":setings"))
 
